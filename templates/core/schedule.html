@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Class Schedule | IronForge Gym{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+    <div class="container">
+        <div class="section-label">Weekly Schedule</div>
+        <h1 class="page-hero-title">CLASS <span class="text-gradient">SCHEDULE</span></h1>
+        <p style="color:var(--text-muted);max-width:500px;margin-top:0.75rem">Book your spot in any class. Log in to reserve your place before it fills up.</p>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Schedule</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <!-- Day Tabs -->
+        <div class="schedule-tabs mb-4">
+            {% for day_name, schedules in schedules_by_day.items %}
+            <button class="schedule-tab" data-day="{{ day_name }}">{{ day_name }}</button>
+            {% endfor %}
+        </div>
+
+        <!-- Schedule Panels -->
+        {% for day_name, schedules in schedules_by_day.items %}
+        <div class="schedule-panel" data-day="{{ day_name }}" style="display:none">
+            {% if schedules %}
+            {% for schedule in schedules %}
+            <div class="schedule-item reveal">
+                <div class="schedule-time">
+                    {{ schedule.start_time|time:"g:i A" }}
+                </div>
+                <div style="width:4px;height:50px;background:var(--accent);border-radius:2px;flex-shrink:0"></div>
+                <div class="flex-grow-1">
+                    <div class="schedule-class-name">
+                        {{ schedule.gym_class.icon }} {{ schedule.gym_class.name }}
+                    </div>
+                    <div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.25rem;display:flex;gap:1rem;flex-wrap:wrap">
+                        {% if schedule.gym_class.trainer %}
+                        <span><i class="bi bi-person me-1"></i>{{ schedule.gym_class.trainer.name }}</span>
+                        {% endif %}
+                        <span><i class="bi bi-clock me-1"></i>{{ schedule.gym_class.duration_minutes }} min</span>
+                        <span><i class="bi bi-geo-alt me-1"></i>{{ schedule.room }}</span>
+                        <span class="difficulty-pill difficulty-{{ schedule.gym_class.difficulty }}">{{ schedule.gym_class.get_difficulty_display }}</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    {% with spots=schedule.available_spots cap=schedule.gym_class.max_capacity %}
+                    {% if spots > 5 %}
+                    <span class="spots-badge spots-available"><i class="bi bi-check-circle me-1"></i>{{ spots }} spots</span>
+                    {% elif spots > 0 %}
+                    <span class="spots-badge spots-limited"><i class="bi bi-exclamation-triangle me-1"></i>{{ spots }} left</span>
+                    {% else %}
+                    <span class="spots-badge spots-full"><i class="bi bi-x-circle me-1"></i>Full</span>
+                    {% endif %}
+                    {% endwith %}
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'bookings:book_class' schedule.id %}" class="booking-btn">Book Now</a>
+                    {% else %}
+                    <a href="{% url 'accounts:login' %}?next={% url 'bookings:book_class' schedule.id %}" class="booking-btn">Login to Book</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div style="text-align:center;padding:4rem;color:var(--text-muted)">
+                <div style="font-size:3rem;margin-bottom:1rem">😴</div>
+                <h3 style="font-family:'Barlow Condensed',sans-serif;font-weight:700">No classes on {{ day_name }}</h3>
+                <p>Check back or view other days for available sessions.</p>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        {% if not user.is_authenticated %}
+        <div style="background:rgba(232,66,10,0.08);border:1px solid rgba(232,66,10,0.2);border-radius:10px;padding:1.5rem;margin-top:2rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+            <i class="bi bi-info-circle text-accent" style="font-size:1.5rem"></i>
+            <div class="flex-grow-1">
+                <strong style="color:var(--text)">Want to book a class?</strong>
+                <span style="color:var(--text-muted);margin-left:0.5rem">Create your free account or log in to reserve your spot.</span>
+            </div>
+            <div style="display:flex;gap:0.75rem">
+                <a href="{% url 'accounts:login' %}" class="btn-outline-custom" style="padding:0.5rem 1rem;font-size:0.85rem">Login</a>
+                <a href="{% url 'accounts:register' %}" class="btn-primary-custom" style="padding:0.5rem 1rem;font-size:0.85rem">Join Free</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

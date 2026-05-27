@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gym Classes | IronForge Gym{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+    <div class="container">
+        <div class="section-label">Our Programs</div>
+        <h1 class="page-hero-title">GYM <span class="text-gradient">CLASSES</span></h1>
+        <p style="color:var(--text-muted);max-width:550px;margin-top:0.75rem">From HIIT to Yoga — find the perfect class for your fitness level and goals.</p>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Classes</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <!-- Filters -->
+        <form method="get" class="filter-bar">
+            <i class="bi bi-funnel text-accent"></i>
+            <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:0.06em;font-size:0.9rem;color:var(--text-muted)">FILTER BY:</span>
+            <select name="category" class="filter-select form-select" data-auto-submit>
+                <option value="">All Categories</option>
+                {% for value, label in category_choices %}
+                <option value="{{ value }}" {% if selected_category == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <select name="difficulty" class="filter-select form-select" data-auto-submit>
+                <option value="">All Levels</option>
+                {% for value, label in difficulty_choices %}
+                <option value="{{ value }}" {% if selected_difficulty == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            {% if selected_category or selected_difficulty %}
+            <a href="{% url 'core:classes' %}" class="btn-outline-custom" style="padding:0.45rem 1rem;font-size:0.85rem"><i class="bi bi-x me-1"></i>Clear</a>
+            {% endif %}
+            <span style="margin-left:auto;font-size:0.85rem;color:var(--text-muted)">{{ classes.count }} class{{ classes.count|pluralize:"es" }}</span>
+        </form>
+
+        <div class="row g-4">
+            {% for class in classes %}
+            <div class="col-md-6 col-lg-4 reveal" style="transition-delay:{{ forloop.counter0|divisibleby:3 }}00ms">
+                <div class="card-gym h-100">
+                    <div style="position:relative;overflow:hidden;height:210px;background:var(--surface)">
+
+                        {% if class.image %}
+                            <img src="{{ class.image.url }}" alt="{{ class.name }}" class="card-gym-image">
+                        {% else %}
+                            {# Styled gradient placeholder — no emoji #}
+                            <div class="class-img-placeholder cat-{{ class.category }}">
+                                <div class="class-img-placeholder-inner">
+                                    <i class="bi bi-{% if class.category == 'strength' %}lightning-charge{% elif class.category == 'cardio' %}heart-pulse{% elif class.category == 'yoga' %}peace{% elif class.category == 'hiit' %}fire{% elif class.category == 'pilates' %}person-arms-up{% elif class.category == 'boxing' %}shield{% elif class.category == 'spin' %}bicycle{% elif class.category == 'crossfit' %}trophy{% else %}activity{% endif %}"></i>
+                                    <span>{{ class.name }}</span>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <div style="position:absolute;top:0.75rem;left:0.75rem;display:flex;gap:0.4rem">
+                            <span class="card-badge">{{ class.get_category_display }}</span>
+                        </div>
+                        <div style="position:absolute;top:0.75rem;right:0.75rem">
+                            <span class="difficulty-pill difficulty-{{ class.difficulty }}">{{ class.get_difficulty_display }}</span>
+                        </div>
+                    </div>
+                    <div class="card-gym-body d-flex flex-column">
+                        <h3 class="card-gym-title">{{ class.name }}</h3>
+                        <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.6;flex-grow:1">{{ class.description|truncatechars:110 }}</p>
+                        <div style="border-top:1px solid var(--border);padding-top:0.75rem;margin-top:0.75rem;display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;font-size:0.82rem;color:var(--text-muted)">
+                            <span><i class="bi bi-clock me-1"></i>{{ class.duration_minutes }} min</span>
+                            <span><i class="bi bi-people me-1"></i>Max {{ class.max_capacity }}</span>
+                            {% if class.trainer %}<span><i class="bi bi-person me-1"></i>{{ class.trainer.name }}</span>{% endif %}
+                            <a href="{% url 'core:schedule' %}" class="booking-btn ms-auto">Schedule →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5" style="color:var(--text-muted)">
+                <i class="bi bi-collection-play" style="font-size:3rem;display:block;margin-bottom:1rem"></i>
+                <h3 style="font-family:'Barlow Condensed',sans-serif;color:var(--text)">No classes found</h3>
+                <p>Try adjusting your filters.</p>
+                <a href="{% url 'core:classes' %}" class="btn-primary-custom mt-2">Clear Filters</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

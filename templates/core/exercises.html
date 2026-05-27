@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Exercise Library | IronForge Gym{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+    <div class="container">
+        <div class="section-label">Exercise Library</div>
+        <h1 class="page-hero-title">EXERCISE <span class="text-gradient">LIBRARY</span></h1>
+        <p style="color:var(--text-muted);max-width:550px;margin-top:0.75rem">Browse our complete library of exercises with step-by-step instructions and tips.</p>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Exercises</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <!-- Filters -->
+        <form method="get" class="filter-bar">
+            <i class="bi bi-funnel text-accent"></i>
+            <span style="font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:0.06em;font-size:0.9rem;color:var(--text-muted)">FILTER:</span>
+            <select name="muscle" class="filter-select form-select" data-auto-submit>
+                <option value="">All Muscles</option>
+                {% for value, label in muscle_choices %}
+                <option value="{{ value }}" {% if selected_muscle == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <select name="equipment" class="filter-select form-select" data-auto-submit>
+                <option value="">All Equipment</option>
+                {% for value, label in equipment_choices %}
+                <option value="{{ value }}" {% if selected_equipment == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <select name="difficulty" class="filter-select form-select" data-auto-submit>
+                <option value="">All Levels</option>
+                {% for value, label in difficulty_choices %}
+                <option value="{{ value }}" {% if selected_difficulty == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            {% if selected_muscle or selected_equipment or selected_difficulty %}
+            <a href="{% url 'core:exercises' %}" class="btn-outline-custom" style="padding:0.45rem 1rem;font-size:0.85rem"><i class="bi bi-x me-1"></i>Clear</a>
+            {% endif %}
+            <span style="margin-left:auto;font-size:0.85rem;color:var(--text-muted)">{{ exercises.count }} exercise{{ exercises.count|pluralize }}</span>
+        </form>
+
+        <div class="row g-4">
+            {% for exercise in exercises %}
+            <div class="col-md-6 col-lg-4 reveal">
+                <div class="exercise-card h-100">
+                    {% if exercise.image %}
+                    <img src="{{ exercise.image.url }}" alt="{{ exercise.name }}" style="width:100%;height:160px;object-fit:cover;border-radius:8px;margin-bottom:1rem">
+                    {% endif %}
+                    <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.75rem">
+                        <span class="muscle-pill"><i class="bi bi-activity me-1"></i>{{ exercise.get_muscle_group_display }}</span>
+                        <span class="difficulty-pill difficulty-{{ exercise.difficulty }}">{{ exercise.get_difficulty_display }}</span>
+                        {% if exercise.is_featured %}
+                        <span style="background:rgba(201,168,76,0.12);color:var(--gold);border:1px solid rgba(201,168,76,0.2);font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:100px">★ Featured</span>
+                        {% endif %}
+                    </div>
+                    <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.25rem;font-weight:700;color:var(--text);margin-bottom:0.5rem">{{ exercise.name }}</h3>
+                    <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.6;margin-bottom:1rem">{{ exercise.description|truncatechars:100 }}</p>
+
+                    <div style="border-top:1px solid var(--border);padding-top:0.75rem;display:flex;flex-wrap:wrap;gap:0.75rem;font-size:0.82rem;color:var(--text-muted);margin-bottom:0.75rem">
+                        <span><i class="bi bi-tools me-1"></i>{{ exercise.get_equipment_display }}</span>
+                        <span><i class="bi bi-lightning me-1"></i>{{ exercise.calories_per_hour }} cal/hr</span>
+                        <span><i class="bi bi-repeat me-1"></i>{{ exercise.sets_reps }}</span>
+                    </div>
+
+                    <!-- Collapsible Instructions -->
+                    <button class="btn-outline-custom w-100 justify-content-center" style="padding:0.45rem 1rem;font-size:0.85rem" type="button" data-bs-toggle="collapse" data-bs-target="#ex-{{ exercise.id }}">
+                        <i class="bi bi-list-ol me-1"></i> View Instructions
+                    </button>
+                    <div class="collapse mt-2" id="ex-{{ exercise.id }}">
+                        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem;font-size:0.85rem;color:var(--text-light);line-height:1.7">
+                            {{ exercise.instructions|linebreaks }}
+                        </div>
+                        {% if exercise.video_url %}
+                        <a href="{{ exercise.video_url }}" target="_blank" class="btn-primary-custom w-100 justify-content-center mt-2" style="padding:0.45rem 1rem;font-size:0.85rem">
+                            <i class="bi bi-play-circle me-1"></i> Watch Video
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5" style="color:var(--text-muted)">
+                <div style="font-size:3rem;margin-bottom:1rem">🏃</div>
+                <h3 style="font-family:'Barlow Condensed',sans-serif;color:var(--text)">No exercises found</h3>
+                <p>Try adjusting your filters.</p>
+                <a href="{% url 'core:exercises' %}" class="btn-primary-custom mt-2">Clear Filters</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

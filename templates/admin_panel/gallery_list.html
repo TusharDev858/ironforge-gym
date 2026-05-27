@@ -1,0 +1,37 @@
+{% extends 'admin_panel/base.html' %}
+{% block title %}Gallery | IronForge Manage{% endblock %}
+{% block page_title %}Gallery{% endblock %}
+
+{% block content %}
+<div class="ap-page-header">
+    <div class="ap-page-title">GALLERY</div>
+    <a href="{% url 'admin_panel:gallery_create' %}" class="ap-action ap-action-primary"><i class="bi bi-plus-lg me-1"></i>Upload Image</a>
+</div>
+<div class="row g-3">
+    {% for img in images %}
+    <div class="col-6 col-md-4 col-lg-3">
+        <div class="ap-card" style="overflow:hidden">
+            <div style="height:140px;overflow:hidden;background:var(--surface)">
+                <img src="{{ img.image.url }}" style="width:100%;height:100%;object-fit:cover" alt="{{ img.title }}">
+            </div>
+            <div style="padding:0.75rem">
+                <div style="font-weight:600;font-size:0.88rem;color:var(--text);margin-bottom:0.3rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ img.title }}</div>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem">
+                    <span class="ap-pill ap-pill-blue" style="font-size:0.65rem">{{ img.get_category_display }}</span>
+                    {% if img.is_featured %}<span class="ap-pill ap-pill-yellow" style="font-size:0.65rem">★ Featured</span>{% endif %}
+                </div>
+                <div style="display:flex;gap:0.4rem">
+                    <a href="{% url 'admin_panel:gallery_edit' img.pk %}" class="ap-action ap-action-edit" style="flex:1;justify-content:center"><i class="bi bi-pencil"></i></a>
+                    <a href="{% url 'admin_panel:gallery_delete' img.pk %}" class="ap-action ap-action-delete" style="flex:1;justify-content:center"><i class="bi bi-trash3"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12" style="text-align:center;padding:3rem;color:var(--text-muted)">
+        <i class="bi bi-images" style="font-size:2.5rem;display:block;margin-bottom:0.75rem"></i>
+        No gallery images yet. <a href="{% url 'admin_panel:gallery_create' %}" style="color:var(--accent)">Upload the first one</a>.
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

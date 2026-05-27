@@ -1,0 +1,124 @@
+{% extends 'admin_panel/base.html' %}
+{% block title %}Dashboard | IronForge Manage{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="ap-page-header">
+    <div class="ap-page-title">OVERVIEW</div>
+    <span style="font-size:0.85rem;color:var(--text-muted)">Welcome back, <strong style="color:var(--text)">{{ request.user.first_name|default:request.user.username }}</strong></span>
+</div>
+
+<!-- Stat tiles -->
+<div class="row g-3 mb-4">
+    {% for icon, label, val, url in stat_tiles %}{% empty %}
+    <div class="col-6 col-md-4 col-xl-3">
+        <a href="{% url 'admin_panel:trainer_list' %}" style="text-decoration:none">
+            <div class="ap-stat">
+                <div class="ap-stat-icon"><i class="bi bi-person-badge"></i></div>
+                <div><div class="ap-stat-num">{{ total_trainers }}</div><div class="ap-stat-label">Trainers</div></div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-md-4 col-xl-3">
+        <a href="{% url 'admin_panel:class_list' %}" style="text-decoration:none">
+            <div class="ap-stat">
+                <div class="ap-stat-icon"><i class="bi bi-collection-play"></i></div>
+                <div><div class="ap-stat-num">{{ total_classes }}</div><div class="ap-stat-label">Classes</div></div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-md-4 col-xl-3">
+        <a href="{% url 'admin_panel:schedule_list' %}" style="text-decoration:none">
+            <div class="ap-stat">
+                <div class="ap-stat-icon"><i class="bi bi-calendar3"></i></div>
+                <div><div class="ap-stat-num">{{ total_schedules }}</div><div class="ap-stat-label">Schedules</div></div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-md-4 col-xl-3">
+        <a href="{% url 'admin_panel:exercise_list' %}" style="text-decoration:none">
+            <div class="ap-stat">
+                <div class="ap-stat-icon"><i class="bi bi-activity"></i></div>
+                <div><div class="ap-stat-num">{{ total_exercises }}</div><div class="ap-stat-label">Exercises</div></div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-md-4 col-xl-3">
+        <a href="{% url 'admin_panel:gallery_list' %}" style="text-decoration:none">
+            <div class="ap-stat">
+                <div class="ap-stat-icon"><i class="bi bi-images"></i></div>
+                <div><div class="ap-stat-num">{{ total_gallery }}</div><div class="ap-stat-label">Gallery Images</div></div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-md-4 col-xl-3">
+        <a href="{% url 'admin_panel:testimonial_list' %}" style="text-decoration:none">
+            <div class="ap-stat">
+                <div class="ap-stat-icon"><i class="bi bi-chat-quote"></i></div>
+                <div><div class="ap-stat-num">{{ total_testimonials }}</div><div class="ap-stat-label">Testimonials</div></div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-md-4 col-xl-3">
+        <a href="{% url 'admin_panel:plan_list' %}" style="text-decoration:none">
+            <div class="ap-stat">
+                <div class="ap-stat-icon"><i class="bi bi-credit-card"></i></div>
+                <div><div class="ap-stat-num">{{ total_plans }}</div><div class="ap-stat-label">Membership Plans</div></div>
+            </div>
+        </a>
+    </div>
+    <div class="col-6 col-md-4 col-xl-3">
+        <a href="{% url 'admin_panel:message_inbox' %}" style="text-decoration:none">
+            <div class="ap-stat" style="{% if unread_messages %}border-color:rgba(232,66,10,0.4){% endif %}">
+                <div class="ap-stat-icon" style="{% if unread_messages %}background:rgba(232,66,10,0.15){% endif %}"><i class="bi bi-envelope{% if unread_messages %}-open{% endif %}"></i></div>
+                <div>
+                    <div class="ap-stat-num" style="{% if unread_messages %}color:var(--accent){% endif %}">{{ unread_messages }}</div>
+                    <div class="ap-stat-label">Unread Messages</div>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Recent messages + Quick links -->
+<div class="row g-3">
+    <div class="col-lg-7">
+        <div class="ap-card">
+            <div class="ap-card-header">
+                <span class="ap-card-title"><i class="bi bi-envelope me-2 text-accent"></i>Recent Messages</span>
+                <a href="{% url 'admin_panel:message_inbox' %}" class="ap-action ap-action-view">View All</a>
+            </div>
+            {% if recent_messages %}
+            {% for msg in recent_messages %}
+            <a href="{% url 'admin_panel:message_detail' msg.pk %}" class="inbox-row {% if not msg.is_read %}unread{% endif %}">
+                <div class="inbox-dot {% if msg.is_read %}read{% endif %}"></div>
+                <div class="inbox-sender">{{ msg.name }}</div>
+                <div class="inbox-subject">{{ msg.get_subject_display }} — {{ msg.message|truncatechars:50 }}</div>
+                <div class="inbox-date">{{ msg.created_at|date:"M j" }}</div>
+            </a>
+            {% endfor %}
+            {% else %}
+            <div style="padding:2.5rem;text-align:center;color:var(--text-muted)">
+                <i class="bi bi-inbox" style="font-size:2rem;display:block;margin-bottom:0.5rem"></i>
+                No messages yet.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="ap-card">
+            <div class="ap-card-header">
+                <span class="ap-card-title"><i class="bi bi-lightning me-2 text-accent"></i>Quick Actions</span>
+            </div>
+            <div style="padding:1rem;display:flex;flex-direction:column;gap:0.5rem">
+                <a href="{% url 'admin_panel:trainer_create' %}" class="ap-action ap-action-primary" style="justify-content:center;padding:0.6rem 1rem"><i class="bi bi-plus-lg me-1"></i>Add Trainer</a>
+                <a href="{% url 'admin_panel:class_create' %}" class="ap-action ap-action-primary" style="justify-content:center;padding:0.6rem 1rem"><i class="bi bi-plus-lg me-1"></i>Add Class</a>
+                <a href="{% url 'admin_panel:schedule_create' %}" class="ap-action ap-action-primary" style="justify-content:center;padding:0.6rem 1rem"><i class="bi bi-plus-lg me-1"></i>Add Schedule</a>
+                <a href="{% url 'admin_panel:gallery_create' %}" class="ap-action ap-action-primary" style="justify-content:center;padding:0.6rem 1rem"><i class="bi bi-plus-lg me-1"></i>Upload Gallery Image</a>
+                <a href="{% url 'admin_panel:exercise_create' %}" class="ap-action ap-action-primary" style="justify-content:center;padding:0.6rem 1rem"><i class="bi bi-plus-lg me-1"></i>Add Exercise</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Book {{ schedule.gym_class.name }} | IronForge Gym{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+    <div class="container">
+        <div class="section-label">Class Booking</div>
+        <h1 class="page-hero-title">BOOK <span class="text-gradient">YOUR SPOT</span></h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'core:schedule' %}">Schedule</a></li>
+                <li class="breadcrumb-item active">Book Class</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <div class="row g-4 justify-content-center">
+            <!-- Class Details -->
+            <div class="col-lg-4">
+                <div class="info-card" style="position:sticky;top:100px">
+                    <div class="info-card-title"><i class="bi bi-info-circle text-accent"></i> Class Details</div>
+                    <div style="font-size:2.5rem;text-align:center;padding:1rem 0">{{ schedule.gym_class.icon }}</div>
+                    <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:700;color:var(--text);text-align:center;margin-bottom:0.25rem">{{ schedule.gym_class.name }}</h3>
+                    <p style="color:var(--accent);font-family:'Barlow Condensed',sans-serif;font-weight:600;text-align:center;margin-bottom:1rem">{{ schedule.gym_class.get_category_display }}</p>
+                    <div class="info-row">
+                        <span class="info-label">Instructor</span>
+                        <span class="info-value">{{ schedule.gym_class.trainer.name|default:"TBA" }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Day</span>
+                        <span class="info-value">{{ schedule.get_day_of_week_display }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Time</span>
+                        <span class="info-value">{{ schedule.start_time|time:"g:i A" }} – {{ schedule.end_time|time:"g:i A" }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Duration</span>
+                        <span class="info-value">{{ schedule.gym_class.duration_minutes }} minutes</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Room</span>
+                        <span class="info-value">{{ schedule.room }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Level</span>
+                        <span class="info-value">{{ schedule.gym_class.get_difficulty_display }}</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Available Spots</span>
+                        <span class="info-value">{{ schedule.available_spots }} / {{ schedule.gym_class.max_capacity }}</span>
+                    </div>
+                    <p style="color:var(--text-muted);font-size:0.85rem;line-height:1.6;margin-top:0.75rem">{{ schedule.gym_class.description }}</p>
+                </div>
+            </div>
+
+            <!-- Booking Form -->
+            <div class="col-lg-5">
+                <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem">
+                    <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:0.5rem">Select a Date</h3>
+                    <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:1.5rem">Choose an upcoming {{ schedule.get_day_of_week_display }} for your session.</p>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <div style="display:flex;flex-direction:column;gap:0.5rem">
+                                {% for date in upcoming_dates %}
+                                <label style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:0.85rem 1rem;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:0.75rem" class="date-option">
+                                    <input type="radio" name="booking_date" value="{{ date|date:'Y-m-d' }}" style="accent-color:var(--accent)" {% if forloop.first %}checked{% endif %}>
+                                    <div>
+                                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--text);font-size:1rem">{{ date|date:"l, F j, Y" }}</div>
+                                        <div style="font-size:0.8rem;color:var(--text-muted)">{{ schedule.start_time|time:"g:i A" }} – {{ schedule.end_time|time:"g:i A" }}</div>
+                                    </div>
+                                </label>
+                                {% empty %}
+                                <div style="color:var(--text-muted);font-size:0.9rem;padding:1rem">No upcoming dates found.</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        {% if schedule.available_spots > 0 %}
+                        <button type="submit" class="btn-primary-custom w-100 justify-content-center">
+                            <i class="bi bi-calendar-check me-2"></i>Confirm Booking
+                        </button>
+                        {% else %}
+                        <button type="submit" class="btn-outline-custom w-100 justify-content-center">
+                            <i class="bi bi-list-ul me-2"></i>Join Waitlist
+                        </button>
+                        {% endif %}
+                    </form>
+
+                    <div style="margin-top:1rem;text-align:center">
+                        <a href="{% url 'core:schedule' %}" style="color:var(--text-muted);font-size:0.85rem"><i class="bi bi-arrow-left me-1"></i>Back to Schedule</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.date-option:has(input:checked) {
+    border-color: var(--accent) !important;
+    background: rgba(232,66,10,0.06) !important;
+}
+.date-option:hover { border-color: rgba(232,66,10,0.4) !important; }
+</style>
+{% endblock %}

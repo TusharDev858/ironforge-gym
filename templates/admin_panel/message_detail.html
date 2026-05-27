@@ -1,0 +1,89 @@
+{% extends 'admin_panel/base.html' %}
+{% block title %}Message from {{ msg.name }} | IronForge Manage{% endblock %}
+{% block page_title %}Message Detail{% endblock %}
+
+{% block content %}
+<div class="ap-page-header">
+    <div class="ap-page-title">MESSAGE</div>
+    <a href="{% url 'admin_panel:message_inbox' %}" class="ap-action ap-action-view"><i class="bi bi-arrow-left me-1"></i>Back to Inbox</a>
+</div>
+
+<div class="row g-3">
+    <!-- Message body -->
+    <div class="col-lg-8">
+        <div class="ap-card" style="padding:1.75rem">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)">
+                <div>
+                    <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:700;color:var(--text);margin-bottom:0.25rem">{{ msg.get_subject_display }}</h2>
+                    <div style="font-size:0.85rem;color:var(--text-muted)">
+                        Received {{ msg.created_at|date:"l, F j, Y \a\t g:i A" }}
+                    </div>
+                </div>
+                <div style="display:flex;gap:0.4rem;flex-wrap:wrap">
+                    {% if msg.replied %}<span class="ap-pill ap-pill-green">✓ Replied</span>{% endif %}
+                    {% if msg.is_read %}<span class="ap-pill ap-pill-gray">Read</span>{% else %}<span class="ap-pill ap-pill-yellow">Unread</span>{% endif %}
+                </div>
+            </div>
+            <div style="font-size:1rem;color:var(--text-light);line-height:1.8;white-space:pre-wrap">{{ msg.message }}</div>
+        </div>
+    </div>
+
+    <!-- Sidebar: sender info + actions -->
+    <div class="col-lg-4">
+        <div class="ap-card" style="padding:1.25rem;margin-bottom:1rem">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid var(--border)">
+                <i class="bi bi-person me-1"></i> Sender
+            </div>
+            <div style="display:flex;flex-direction:column;gap:0.6rem;font-size:0.88rem">
+                <div><span style="color:var(--text-muted)">Name:</span> <strong style="color:var(--text)">{{ msg.name }}</strong></div>
+                <div><span style="color:var(--text-muted)">Email:</span> <a href="mailto:{{ msg.email }}" style="color:var(--accent)">{{ msg.email }}</a></div>
+                {% if msg.phone %}<div><span style="color:var(--text-muted)">Phone:</span> <a href="tel:{{ msg.phone }}" style="color:var(--accent)">{{ msg.phone }}</a></div>{% endif %}
+                <div><span style="color:var(--text-muted)">Topic:</span> {{ msg.get_subject_display }}</div>
+            </div>
+        </div>
+
+        <div class="ap-card" style="padding:1.25rem">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:1px solid var(--border)">
+                <i class="bi bi-lightning me-1"></i> Actions
+            </div>
+
+            <!-- Reply via email -->
+            <a href="mailto:{{ msg.email }}?subject=Re: {{ msg.get_subject_display }} — IronForge Gym"
+               class="ap-action ap-action-primary" style="width:100%;justify-content:center;padding:0.65rem;margin-bottom:0.5rem">
+                <i class="bi bi-reply me-1"></i>Reply via Email
+            </a>
+
+            <!-- Mark replied -->
+            {% if not msg.replied %}
+            <form method="post" style="margin-bottom:0.5rem">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="mark_replied">
+                <button type="submit" class="ap-action ap-action-view" style="width:100%;justify-content:center;padding:0.65rem">
+                    <i class="bi bi-check2 me-1"></i>Mark as Replied
+                </button>
+            </form>
+            {% endif %}
+
+            <!-- Mark unread -->
+            {% if msg.is_read %}
+            <form method="post" style="margin-bottom:0.5rem">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="mark_unread">
+                <button type="submit" class="ap-action" style="background:rgba(99,102,241,0.1);color:#818cf8;width:100%;justify-content:center;padding:0.65rem">
+                    <i class="bi bi-envelope me-1"></i>Mark as Unread
+                </button>
+            </form>
+            {% endif %}
+
+            <!-- Delete -->
+            <form method="post" onsubmit="return confirm('Delete this message permanently?')">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="delete">
+                <button type="submit" class="ap-action ap-action-delete" style="width:100%;justify-content:center;padding:0.65rem">
+                    <i class="bi bi-trash3 me-1"></i>Delete Message
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

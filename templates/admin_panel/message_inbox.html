@@ -1,0 +1,52 @@
+{% extends 'admin_panel/base.html' %}
+{% block title %}Inbox | IronForge Manage{% endblock %}
+{% block page_title %}Message Inbox{% endblock %}
+
+{% block content %}
+<div class="ap-page-header">
+    <div class="ap-page-title">INBOX
+        {% if unread_count %}<span style="font-size:1rem;background:var(--accent);color:white;padding:0.15rem 0.6rem;border-radius:10px;vertical-align:middle;margin-left:0.5rem">{{ unread_count }} new</span>{% endif %}
+    </div>
+</div>
+
+<!-- Filter tabs -->
+<div style="display:flex;gap:0.5rem;margin-bottom:1.25rem;flex-wrap:wrap">
+    {% for value, label in filter_tabs %}{% empty %}
+    <a href="?status=all"     class="ap-action {% if filter_status == 'all' %}ap-action-primary{% else %}ap-action-view{% endif %}">All</a>
+    <a href="?status=unread"  class="ap-action {% if filter_status == 'unread' %}ap-action-primary{% else %}ap-action-view{% endif %}">Unread</a>
+    <a href="?status=read"    class="ap-action {% if filter_status == 'read' %}ap-action-primary{% else %}ap-action-view{% endif %}">Read</a>
+    <a href="?status=replied" class="ap-action {% if filter_status == 'replied' %}ap-action-primary{% else %}ap-action-view{% endif %}">Replied</a>
+    {% endfor %}
+</div>
+
+<div class="ap-card">
+    {% if messages_list %}
+    {% for msg in messages_list %}
+    <a href="{% url 'admin_panel:message_detail' msg.pk %}" class="inbox-row {% if not msg.is_read %}unread{% endif %}">
+        <div class="inbox-dot {% if msg.is_read %}read{% endif %}"></div>
+        <div style="min-width:130px">
+            <div class="inbox-sender">{{ msg.name }}</div>
+            <div style="font-size:0.75rem;color:var(--text-muted)">{{ msg.email }}</div>
+        </div>
+        <div style="min-width:110px">
+            <span class="ap-pill ap-pill-blue" style="font-size:0.65rem">{{ msg.get_subject_display }}</span>
+        </div>
+        <div class="inbox-subject">{{ msg.message|truncatechars:70 }}</div>
+        <div style="text-align:right;flex-shrink:0">
+            <div class="inbox-date">{{ msg.created_at|date:"M j, Y" }}</div>
+            <div style="margin-top:0.2rem;display:flex;gap:0.3rem;justify-content:flex-end">
+                {% if msg.replied %}<span class="ap-pill ap-pill-green" style="font-size:0.6rem">Replied</span>{% endif %}
+                {% if not msg.is_read %}<span class="ap-pill ap-pill-yellow" style="font-size:0.6rem">New</span>{% endif %}
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+    {% else %}
+    <div style="padding:3rem;text-align:center;color:var(--text-muted)">
+        <i class="bi bi-inbox" style="font-size:2.5rem;display:block;margin-bottom:0.75rem"></i>
+        <strong>No messages found.</strong>
+        <p style="margin-top:0.5rem;font-size:0.88rem">{% if filter_status != 'all' %}Try switching the filter above.{% else %}When visitors submit the contact form, messages will appear here.{% endif %}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

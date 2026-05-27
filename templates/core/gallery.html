@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Gallery | IronForge Gym{% endblock %}
+
+{% block content %}
+<div class="page-hero" style="background:var(--bg-2)">
+    <div class="container">
+        <div class="section-label">Photo Gallery</div>
+        <h1 class="page-hero-title">OUR <span class="text-gradient">FACILITY</span></h1>
+        <p style="color:var(--text-muted);max-width:550px;margin-top:0.75rem">Take a virtual tour of IronForge — world-class equipment in a premium environment.</p>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Gallery</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+
+        <!-- Filter bar -->
+        <div class="gallery-filter-bar">
+            <a href="{% url 'core:gallery' %}" class="gallery-filter-btn {% if not selected_category %}active{% endif %}">
+                <i class="bi bi-grid-3x3-gap me-1"></i>All
+            </a>
+            {% for value, label in category_choices %}
+            <a href="?category={{ value }}" class="gallery-filter-btn {% if selected_category == value %}active{% endif %}">{{ label }}</a>
+            {% endfor %}
+        </div>
+
+        {% if images %}
+        <!-- Masonry gallery grid -->
+        <div class="masonry-gallery" id="masonryGrid">
+            {% for img in images %}
+            <div class="masonry-item reveal" data-category="{{ img.category }}" data-index="{{ forloop.counter0 }}">
+                <div class="masonry-inner" onclick="openLightbox({{ forloop.counter0 }})">
+                    <img src="{{ img.image.url }}" alt="{{ img.title }}" loading="lazy" class="masonry-img">
+                    <div class="masonry-overlay">
+                        <div class="masonry-overlay-content">
+                            <div class="masonry-title">{{ img.title }}</div>
+                            <div class="masonry-cat">{{ img.get_category_display }}</div>
+                        </div>
+                        <div class="masonry-zoom"><i class="bi bi-zoom-in"></i></div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- LIGHTBOX -->
+        <div class="ig-lightbox" id="igLightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+            <div class="ig-lightbox-backdrop" onclick="closeLightbox()"></div>
+            <button class="ig-lb-close" onclick="closeLightbox()" aria-label="Close"><i class="bi bi-x-lg"></i></button>
+            <button class="ig-lb-prev" onclick="prevLightbox()" aria-label="Previous"><i class="bi bi-chevron-left"></i></button>
+            <button class="ig-lb-next" onclick="nextLightbox()" aria-label="Next"><i class="bi bi-chevron-right"></i></button>
+            <div class="ig-lb-body">
+                <div class="ig-lb-img-wrap">
+                    <img src="" alt="" id="igLbImg" class="ig-lb-img">
+                    <div class="ig-lb-spinner" id="igLbSpinner"><div class="ig-spinner-ring"></div></div>
+                </div>
+                <div class="ig-lb-caption">
+                    <div id="igLbTitle" class="ig-lb-caption-title"></div>
+                    <div id="igLbCounter" class="ig-lb-caption-counter"></div>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+        <!-- Empty state with Unsplash sample images -->
+        <div class="gallery-empty-state">
+            <div class="section-label justify-content-center mb-3">Preview</div>
+            <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.6rem;font-weight:700;color:var(--text);margin-bottom:0.5rem">Gallery Coming Soon</h3>
+            <p style="color:var(--text-muted);margin-bottom:2rem">We're putting together our best shots. Here's a preview of what to expect:</p>
+            <div class="masonry-gallery">
+                {% for src, title in sample_images %}{% empty %}
+                <div class="masonry-item"><div class="masonry-inner"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=70&auto=format&fit=crop" alt="Gym floor" class="masonry-img" loading="lazy"><div class="masonry-overlay"><div class="masonry-overlay-content"><div class="masonry-title">Main Gym Floor</div><div class="masonry-cat">Facility</div></div><div class="masonry-zoom"><i class="bi bi-zoom-in"></i></div></div></div></div>
+                <div class="masonry-item masonry-tall"><div class="masonry-inner"><img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=70&auto=format&fit=crop" alt="Weight training" class="masonry-img" loading="lazy"><div class="masonry-overlay"><div class="masonry-overlay-content"><div class="masonry-title">Weight Area</div><div class="masonry-cat">Equipment</div></div><div class="masonry-zoom"><i class="bi bi-zoom-in"></i></div></div></div></div>
+                <div class="masonry-item"><div class="masonry-inner"><img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=70&auto=format&fit=crop" alt="HIIT class" class="masonry-img" loading="lazy"><div class="masonry-overlay"><div class="masonry-overlay-content"><div class="masonry-title">HIIT Class</div><div class="masonry-cat">Classes</div></div><div class="masonry-zoom"><i class="bi bi-zoom-in"></i></div></div></div></div>
+                <div class="masonry-item"><div class="masonry-inner"><img src="https://images.unsplash.com/photo-1549476464-37392f717541?w=600&q=70&auto=format&fit=crop" alt="Boxing" class="masonry-img" loading="lazy"><div class="masonry-overlay"><div class="masonry-overlay-content"><div class="masonry-title">Boxing Ring</div><div class="masonry-cat">Equipment</div></div><div class="masonry-zoom"><i class="bi bi-zoom-in"></i></div></div></div></div>
+                <div class="masonry-item masonry-tall"><div class="masonry-inner"><img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=70&auto=format&fit=crop" alt="Yoga studio" class="masonry-img" loading="lazy"><div class="masonry-overlay"><div class="masonry-overlay-content"><div class="masonry-title">Yoga Studio</div><div class="masonry-cat">Facility</div></div><div class="masonry-zoom"><i class="bi bi-zoom-in"></i></div></div></div></div>
+                <div class="masonry-item"><div class="masonry-inner"><img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=600&q=70&auto=format&fit=crop" alt="Dumbbell rack" class="masonry-img" loading="lazy"><div class="masonry-overlay"><div class="masonry-overlay-content"><div class="masonry-title">Dumbbell Rack</div><div class="masonry-cat">Equipment</div></div><div class="masonry-zoom"><i class="bi bi-zoom-in"></i></div></div></div></div>
+                {% endfor %}
+            </div>
+            <div style="text-align:center;margin-top:2rem">
+                <a href="{% url 'admin_panel:gallery_create' %}" class="btn-primary-custom" style="font-size:0.9rem;padding:0.65rem 1.5rem">
+                    <i class="bi bi-plus-lg me-1"></i> Upload Real Photos via Admin
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// ── Lightbox ──────────────────────────────────────────
+const images = [
+    {% if images %}
+    {% for img in images %}
+    { src: "{{ img.image.url }}", title: "{{ img.title }}", cat: "{{ img.get_category_display }}" }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+    {% endif %}
+];
+
+let currentIndex = 0;
+const lb      = document.getElementById('igLightbox');
+const lbImg   = document.getElementById('igLbImg');
+const lbTitle = document.getElementById('igLbTitle');
+const lbCount = document.getElementById('igLbCounter');
+const lbSpin  = document.getElementById('igLbSpinner');
+
+function openLightbox(index) {
+    if (!images.length) return;
+    currentIndex = index;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    loadImage(index);
+}
+function closeLightbox() {
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+}
+function loadImage(i) {
+    if (!images[i]) return;
+    lbSpin.style.display = 'flex';
+    lbImg.style.opacity = '0';
+    lbImg.src = images[i].src;
+    lbImg.alt = images[i].title;
+    lbImg.onload = () => { lbSpin.style.display = 'none'; lbImg.style.opacity = '1'; };
+    lbTitle.textContent = images[i].title;
+    lbCount.textContent = (i + 1) + ' / ' + images.length;
+}
+function prevLightbox() { currentIndex = (currentIndex - 1 + images.length) % images.length; loadImage(currentIndex); }
+function nextLightbox()  { currentIndex = (currentIndex + 1) % images.length; loadImage(currentIndex); }
+
+document.addEventListener('keydown', e => {
+    if (!lb || !lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') prevLightbox();
+    if (e.key === 'ArrowRight') nextLightbox();
+});
+
+// Swipe support
+let touchStartX = 0;
+if (lb) {
+    lb.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].clientX; }, { passive: true });
+    lb.addEventListener('touchend',   e => {
+        const dx = e.changedTouches[0].clientX - touchStartX;
+        if (Math.abs(dx) > 50) dx < 0 ? nextLightbox() : prevLightbox();
+    });
+}
+</script>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login | IronForge Gym{% endblock %}
+
+{% block content %}
+<div style="min-height:100vh;display:flex;align-items:center;padding:6rem 0 3rem;background:var(--bg);position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(232,66,10,0.08) 0%,transparent 60%)"></div>
+    <div class="container" style="position:relative">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-xl-4">
+                <div class="text-center mb-4">
+                    <a href="{% url 'core:home' %}" style="display:inline-flex;align-items:center;gap:8px;margin-bottom:1.5rem">
+                        <svg viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg" width="35">
+                            <rect x="0" y="15" width="10" height="10" rx="2" fill="var(--text)"/>
+                            <rect x="12" y="10" width="6" height="20" rx="2" fill="var(--text)"/>
+                            <rect x="20" y="5" width="20" height="30" rx="2" fill="var(--accent)"/>
+                            <rect x="22" y="0" width="6" height="40" rx="2" fill="var(--accent)"/>
+                            <rect x="32" y="0" width="6" height="40" rx="2" fill="var(--accent)"/>
+                            <rect x="42" y="10" width="6" height="20" rx="2" fill="var(--text)"/>
+                            <rect x="50" y="15" width="10" height="10" rx="2" fill="var(--text)"/>
+                        </svg>
+                        <span style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:0.08em;color:var(--text)">IRON<span style="color:var(--accent)">FORGE</span></span>
+                    </a>
+                    <h1 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3rem);letter-spacing:0.04em;color:var(--text)">WELCOME BACK</h1>
+                    <p style="color:var(--text-muted);font-size:0.95rem">Log in to your IronForge account</p>
+                </div>
+
+                <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem">
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.username.id_for_label }}">Username</label>
+                            {{ form.username }}
+                            {% if form.username.errors %}<div style="color:#ef4444;font-size:0.8rem;margin-top:0.25rem">{{ form.username.errors.0 }}</div>{% endif %}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="{{ form.password.id_for_label }}">Password</label>
+                            {{ form.password }}
+                            {% if form.password.errors %}<div style="color:#ef4444;font-size:0.8rem;margin-top:0.25rem">{{ form.password.errors.0 }}</div>{% endif %}
+                        </div>
+                        {% if form.non_field_errors %}
+                        <div style="color:#ef4444;font-size:0.85rem;margin-bottom:1rem;background:rgba(239,68,68,0.08);padding:0.6rem;border-radius:6px;border:1px solid rgba(239,68,68,0.2)">
+                            <i class="bi bi-exclamation-circle me-1"></i>{{ form.non_field_errors.0 }}
+                        </div>
+                        {% endif %}
+                        <button type="submit" class="btn-primary-custom w-100 justify-content-center" style="padding:0.85rem">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Log In
+                        </button>
+                    </form>
+
+                    <div style="text-align:center;margin-top:1.25rem;font-size:0.9rem;color:var(--text-muted)">
+                        Don't have an account? <a href="{% url 'accounts:register' %}" style="color:var(--accent);font-weight:600">Join IronForge</a>
+                    </div>
+                </div>
+
+                <div style="text-align:center;margin-top:1rem">
+                    <a href="{% url 'core:home' %}" style="color:var(--text-muted);font-size:0.85rem"><i class="bi bi-arrow-left me-1"></i>Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

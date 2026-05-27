@@ -1,0 +1,253 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us | IronForge Gym{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+    <div class="container">
+        <div class="section-label">Get In Touch</div>
+        <h1 class="page-hero-title">CONTACT <span class="text-gradient">US</span></h1>
+        <p style="color:var(--text-muted);max-width:520px;margin-top:0.75rem">Have a question about membership, classes, or personal training? We'd love to hear from you.</p>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Contact</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <div class="row g-5">
+
+            <!-- Left: Contact Info -->
+            <div class="col-lg-4">
+                <div style="position:sticky;top:100px">
+
+                    <!-- Info Cards -->
+                    <div class="info-card mb-3 reveal">
+                        <div class="info-card-title"><i class="bi bi-geo-alt text-accent"></i> Find Us</div>
+                        <p style="color:var(--text-light);font-size:0.92rem;line-height:1.7;margin:0">
+                            123 Iron Street<br>
+                            FitCity, FC 10001<br>
+                            United States
+                        </p>
+                        <a href="https://maps.google.com" target="_blank" rel="noopener"
+                           style="display:inline-flex;align-items:center;gap:0.4rem;color:var(--accent);font-size:0.85rem;font-weight:600;margin-top:0.75rem">
+                            <i class="bi bi-map"></i> Get Directions
+                        </a>
+                    </div>
+
+                    <div class="info-card mb-3 reveal reveal-delay-1">
+                        <div class="info-card-title"><i class="bi bi-clock text-accent"></i> Opening Hours</div>
+                        <div class="info-row">
+                            <span class="info-label">Mon – Fri</span>
+                            <span class="info-value">5:00 AM – 11:00 PM</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Saturday</span>
+                            <span class="info-value">6:00 AM – 10:00 PM</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Sunday</span>
+                            <span class="info-value">7:00 AM – 9:00 PM</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Public Holidays</span>
+                            <span class="info-value">8:00 AM – 6:00 PM</span>
+                        </div>
+                    </div>
+
+                    <div class="info-card mb-3 reveal reveal-delay-2">
+                        <div class="info-card-title"><i class="bi bi-telephone text-accent"></i> Call or Email</div>
+                        <div class="info-row">
+                            <span class="info-label">Phone</span>
+                            <a href="tel:+15554676374" class="info-value" style="color:var(--accent)">+1 (555) 467-6374</a>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Email</span>
+                            <a href="mailto:info@ironforge.gym" class="info-value" style="color:var(--accent)">info@ironforge.gym</a>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Response</span>
+                            <span class="info-value">Within 24 hours</span>
+                        </div>
+                    </div>
+
+                    <!-- Social Links -->
+                    <div class="info-card reveal reveal-delay-3">
+                        <div class="info-card-title"><i class="bi bi-share text-accent"></i> Follow Us</div>
+                        <div style="display:flex;gap:0.6rem;margin-top:0.5rem;flex-wrap:wrap">
+                            <a href="#" class="social-link" title="Instagram"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="social-link" title="Facebook"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="social-link" title="YouTube"><i class="bi bi-youtube"></i></a>
+                            <a href="#" class="social-link" title="X / Twitter"><i class="bi bi-twitter-x"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Contact Form -->
+            <div class="col-lg-8">
+                <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2.5rem" class="reveal">
+                    <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:1.75rem;font-weight:700;color:var(--text);margin-bottom:0.25rem">Send Us a Message</h2>
+                    <p style="color:var(--text-muted);font-size:0.92rem;margin-bottom:2rem">Fill in the form below and we'll get back to you as soon as possible.</p>
+
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+
+                        <!-- Name & Email -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-sm-6">
+                                <label class="form-label" for="{{ form.name.id_for_label }}">Full Name <span style="color:var(--accent)">*</span></label>
+                                <input
+                                    type="text"
+                                    name="{{ form.name.html_name }}"
+                                    id="{{ form.name.id_for_label }}"
+                                    class="form-control {% if form.name.errors %}is-invalid{% endif %}"
+                                    placeholder="Your full name"
+                                    value="{{ form.name.value|default:'' }}"
+                                    required>
+                                {% if form.name.errors %}
+                                <div style="color:#ef4444;font-size:0.8rem;margin-top:0.3rem">{{ form.name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="{{ form.email.id_for_label }}">Email Address <span style="color:var(--accent)">*</span></label>
+                                <input
+                                    type="email"
+                                    name="{{ form.email.html_name }}"
+                                    id="{{ form.email.id_for_label }}"
+                                    class="form-control {% if form.email.errors %}is-invalid{% endif %}"
+                                    placeholder="your@email.com"
+                                    value="{{ form.email.value|default:'' }}"
+                                    required>
+                                {% if form.email.errors %}
+                                <div style="color:#ef4444;font-size:0.8rem;margin-top:0.3rem">{{ form.email.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Phone & Subject -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-sm-6">
+                                <label class="form-label" for="{{ form.phone.id_for_label }}">Phone <span style="color:var(--text-muted);font-weight:400">(optional)</span></label>
+                                <input
+                                    type="tel"
+                                    name="{{ form.phone.html_name }}"
+                                    id="{{ form.phone.id_for_label }}"
+                                    class="form-control"
+                                    placeholder="+1 (555) 000-0000"
+                                    value="{{ form.phone.value|default:'' }}">
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label" for="{{ form.subject.id_for_label }}">Subject <span style="color:var(--accent)">*</span></label>
+                                <select
+                                    name="{{ form.subject.html_name }}"
+                                    id="{{ form.subject.id_for_label }}"
+                                    class="form-select {% if form.subject.errors %}is-invalid{% endif %}"
+                                    required>
+                                    {% for value, label in form.fields.subject.choices %}
+                                    <option value="{{ value }}" {% if form.subject.value == value %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% if form.subject.errors %}
+                                <div style="color:#ef4444;font-size:0.8rem;margin-top:0.3rem">{{ form.subject.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="mb-4">
+                            <label class="form-label" for="{{ form.message.id_for_label }}">Message <span style="color:var(--accent)">*</span></label>
+                            <textarea
+                                name="{{ form.message.html_name }}"
+                                id="{{ form.message.id_for_label }}"
+                                class="form-control {% if form.message.errors %}is-invalid{% endif %}"
+                                rows="5"
+                                placeholder="How can we help you? Tell us about your fitness goals, questions about membership, or anything else..."
+                                required>{{ form.message.value|default:'' }}</textarea>
+                            {% if form.message.errors %}
+                            <div style="color:#ef4444;font-size:0.8rem;margin-top:0.3rem">{{ form.message.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Privacy note + Submit -->
+                        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1.5rem;flex-wrap:wrap">
+                            <p style="font-size:0.8rem;color:var(--text-muted);margin:0;max-width:380px;line-height:1.5">
+                                <i class="bi bi-shield-check me-1" style="color:#22c55e"></i>
+                                Your information is kept private and never shared with third parties.
+                            </p>
+                            <button type="submit" class="btn-primary-custom" style="padding:0.85rem 2.5rem">
+                                <i class="bi bi-send me-2"></i>Send Message
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- FAQ Teaser -->
+                <div class="row g-3 mt-2">
+                    <div class="col-12">
+                        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:1.5rem" class="reveal">
+                            <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:1rem">
+                                <i class="bi bi-question-circle text-accent me-2"></i>Quick Answers
+                            </h3>
+                            <div class="accordion" id="faqAccordion">
+
+                                {% for q, a in faq_items %}{% empty %}
+                                <!-- FAQ 1 -->
+                                <div style="border-bottom:1px solid var(--border);padding:0.85rem 0">
+                                    <button style="background:none;border:none;color:var(--text);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:0.03em;cursor:pointer;width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;padding:0"
+                                            type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                        Can I try IronForge before joining?
+                                        <i class="bi bi-chevron-down" style="color:var(--accent);font-size:0.8rem;transition:transform 0.2s"></i>
+                                    </button>
+                                    <div class="collapse" id="faq1">
+                                        <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.6;margin:0.75rem 0 0">Yes! We offer a free 1-day trial pass for new visitors. Just bring a valid ID and comfortable workout gear. Contact us to arrange yours.</p>
+                                    </div>
+                                </div>
+                                <!-- FAQ 2 -->
+                                <div style="border-bottom:1px solid var(--border);padding:0.85rem 0">
+                                    <button style="background:none;border:none;color:var(--text);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:0.03em;cursor:pointer;width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;padding:0"
+                                            type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                        Is there parking available?
+                                        <i class="bi bi-chevron-down" style="color:var(--accent);font-size:0.8rem"></i>
+                                    </button>
+                                    <div class="collapse" id="faq2">
+                                        <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.6;margin:0.75rem 0 0">Yes, we have a free parking lot with 80 spaces directly outside the gym, plus additional street parking on Iron Street.</p>
+                                    </div>
+                                </div>
+                                <!-- FAQ 3 -->
+                                <div style="border-bottom:1px solid var(--border);padding:0.85rem 0">
+                                    <button style="background:none;border:none;color:var(--text);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:0.03em;cursor:pointer;width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;padding:0"
+                                            type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                        How do I cancel my membership?
+                                        <i class="bi bi-chevron-down" style="color:var(--accent);font-size:0.8rem"></i>
+                                    </button>
+                                    <div class="collapse" id="faq3">
+                                        <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.6;margin:0.75rem 0 0">Memberships can be cancelled with 30 days' written notice at the front desk or by email. There are no cancellation fees after the minimum term.</p>
+                                    </div>
+                                </div>
+                                <!-- FAQ 4 -->
+                                <div style="padding:0.85rem 0">
+                                    <button style="background:none;border:none;color:var(--text);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:1rem;letter-spacing:0.03em;cursor:pointer;width:100%;text-align:left;display:flex;align-items:center;justify-content:space-between;padding:0"
+                                            type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                        Do you offer student or corporate discounts?
+                                        <i class="bi bi-chevron-down" style="color:var(--accent);font-size:0.8rem"></i>
+                                    </button>
+                                    <div class="collapse" id="faq4">
+                                        <p style="color:var(--text-muted);font-size:0.9rem;line-height:1.6;margin:0.75rem 0 0">Yes! We offer 20% off for students with a valid ID and group corporate rates for 5+ employees. Contact us for details.</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

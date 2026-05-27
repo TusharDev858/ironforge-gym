@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Trainers | IronForge Gym{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+    <div class="container">
+        <div class="section-label">Expert Coaches</div>
+        <h1 class="page-hero-title">OUR <span class="text-gradient">TRAINERS</span></h1>
+        <p style="color:var(--text-muted);max-width:550px;margin-top:0.75rem">Certified professionals passionate about transforming lives through fitness.</p>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+                <li class="breadcrumb-item active">Trainers</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <div class="row g-4">
+            {% for trainer in trainers %}
+            <div class="col-sm-6 col-lg-3 reveal" style="transition-delay:{{ forloop.counter0 }}00ms">
+                <div class="trainer-card h-100">
+                    <div class="trainer-img-wrap">
+                        {% if trainer.photo %}
+                        <img src="{{ trainer.photo.url }}" alt="{{ trainer.name }}" class="trainer-img">
+                        {% else %}
+                        <div class="trainer-placeholder">💪</div>
+                        {% endif %}
+                        <div class="trainer-overlay">
+                            <a href="{% url 'core:trainer_detail' trainer.slug %}" style="color:white;background:rgba(232,66,10,0.9);padding:0.4rem 1rem;border-radius:5px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:0.06em">View Profile</a>
+                        </div>
+                    </div>
+                    <div class="trainer-info">
+                        <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:0.25rem">{{ trainer.name }}</h3>
+                        <p style="color:var(--accent);font-size:0.9rem;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:0.04em;margin-bottom:0.75rem">{{ trainer.specialty }}</p>
+                        <p style="color:var(--text-muted);font-size:0.85rem;line-height:1.6;margin-bottom:1rem">{{ trainer.bio|truncatechars:100 }}</p>
+                        <div style="display:flex;justify-content:space-between;align-items:center">
+                            <span style="font-size:0.8rem;color:var(--text-muted)"><i class="bi bi-award me-1 text-accent"></i>{{ trainer.experience_years }} yrs exp</span>
+                            <a href="{% url 'core:trainer_detail' trainer.slug %}" style="color:var(--accent);font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:0.05em">Details →</a>
+                        </div>
+                        {% if trainer.get_certifications_list %}
+                        <div style="margin-top:0.75rem;display:flex;flex-wrap:wrap;gap:0.3rem">
+                            {% for cert in trainer.get_certifications_list|slice:":2" %}
+                            <span style="background:var(--surface-2);border:1px solid var(--border);color:var(--text-muted);font-size:0.7rem;padding:0.15rem 0.5rem;border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:0.04em">{{ cert }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5" style="color:var(--text-muted)">
+                <div style="font-size:3rem;margin-bottom:1rem">👨‍🏫</div>
+                <h3 style="font-family:'Barlow Condensed',sans-serif">No trainers listed yet</h3>
+                <p>Check back soon — our team is growing!</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

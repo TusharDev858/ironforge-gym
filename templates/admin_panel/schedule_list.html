@@ -1,0 +1,53 @@
+{% extends 'admin_panel/base.html' %}
+{% block title %}Schedules | IronForge Manage{% endblock %}
+{% block page_title %}Schedules{% endblock %}
+
+{% block content %}
+<div class="ap-page-header">
+    <div class="ap-page-title">SCHEDULES</div>
+    <a href="{% url 'admin_panel:schedule_create' %}" class="ap-action ap-action-primary"><i class="bi bi-plus-lg me-1"></i>Add Schedule</a>
+</div>
+<div class="ap-card">
+    <div style="overflow-x:auto">
+        <table class="ap-table">
+            <thead>
+                <tr>
+                    <th>Class</th>
+                    <th>Day</th>
+                    <th>Start</th>
+                    <th>End</th>
+                    <th>Room</th>
+                    <th>Spots Left</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s in schedules %}
+                <tr>
+                    <td class="td-name">{{ s.gym_class.icon }} {{ s.gym_class.name }}</td>
+                    <td>{{ s.get_day_of_week_display }}</td>
+                    <td>{{ s.start_time|time:"g:i A" }}</td>
+                    <td>{{ s.end_time|time:"g:i A" }}</td>
+                    <td>{{ s.room }}</td>
+                    <td>
+                        {% with spots=s.available_spots %}
+                        {% if spots > 5 %}<span class="ap-pill ap-pill-green">{{ spots }} open</span>
+                        {% elif spots > 0 %}<span class="ap-pill ap-pill-yellow">{{ spots }} left</span>
+                        {% else %}<span class="ap-pill ap-pill-red">Full</span>{% endif %}
+                        {% endwith %}
+                    </td>
+                    <td>{% if s.is_active %}<span class="ap-pill ap-pill-green">Active</span>{% else %}<span class="ap-pill ap-pill-gray">Off</span>{% endif %}</td>
+                    <td style="white-space:nowrap">
+                        <a href="{% url 'admin_panel:schedule_edit' s.pk %}" class="ap-action ap-action-edit"><i class="bi bi-pencil"></i> Edit</a>
+                        <a href="{% url 'admin_panel:schedule_delete' s.pk %}" class="ap-action ap-action-delete"><i class="bi bi-trash3"></i></a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:2rem">No schedules yet. <a href="{% url 'admin_panel:schedule_create' %}" style="color:var(--accent)">Add one</a>.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

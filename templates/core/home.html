@@ -1,0 +1,352 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}IronForge Gym | Transform Your Body, Forge Your Strength{% endblock %}
+
+{% block content %}
+
+<!-- ═══════════════════════════════════════════
+     HERO — CINEMATIC ATHLETE
+═══════════════════════════════════════════ -->
+<section class="hero">
+    <div class="hero-photo"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-smoke"></div>
+    <div class="hero-grain"></div>
+    <div class="hero-accent-line"></div>
+
+    <div class="container" style="position:relative;z-index:5">
+        <div class="row align-items-center min-vh-100 py-5">
+
+            <!-- LEFT: TEXT -->
+            <div class="col-lg-6 hero-content">
+                <div class="hero-label">
+                    <span class="hero-label-dot"></span>
+                    Premium Fitness Experience
+                </div>
+                <h1 class="hero-title">
+                    FORGE
+                    <span class="line-accent">YOUR</span>
+                    STRENGTH
+                </h1>
+                <p class="hero-desc">
+                    Push your limits. Break your records. IronForge is where champions are made — with elite trainers, world-class equipment, and a community that drives you forward.
+                </p>
+                <div class="hero-actions">
+                    <a href="{% url 'accounts:register' %}" class="btn-primary-custom">
+                        <i class="bi bi-lightning-fill"></i> Start Today
+                    </a>
+                    <a href="{% url 'core:classes' %}" class="btn-outline-custom hero-outline-btn">
+                        <i class="bi bi-play-circle"></i> View Classes
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div>
+                        <div class="hero-stat-number" data-count="2847" data-suffix="+">0</div>
+                        <div class="hero-stat-label">Active Members</div>
+                    </div>
+                    <div>
+                        <div class="hero-stat-number" data-count="{{ total_classes }}" data-suffix="+">0</div>
+                        <div class="hero-stat-label">Weekly Classes</div>
+                    </div>
+                    <div>
+                        <div class="hero-stat-number" data-count="{{ total_trainers }}" data-suffix="+">0</div>
+                        <div class="hero-stat-label">Expert Trainers</div>
+                    </div>
+                    <div>
+                        <div class="hero-stat-number" data-count="12">0</div>
+                        <div class="hero-stat-label">Years of Excellence</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: REAL PHOTO STACK + BADGES -->
+            <div class="col-lg-6 d-none d-lg-flex align-items-center justify-content-center" style="z-index:5">
+                <div class="hero-photo-stack">
+
+                    <!-- Main photo — athlete deadlifting -->
+                    <div class="hero-stack-main">
+                        <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=700&q=85&auto=format&fit=crop&crop=top"
+                             alt="Athlete training at IronForge"
+                             class="hero-stack-img">
+                        <div class="hero-stack-shine"></div>
+                    </div>
+
+                    <!-- Small inset photo — group class -->
+                    <div class="hero-stack-inset">
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&q=80&auto=format&fit=crop"
+                             alt="Group fitness class"
+                             class="hero-stack-img">
+                    </div>
+
+                    <!-- Badge: Booking confirmed -->
+                    <div class="hero-badge hero-badge-2">
+                        <div class="hero-badge-icon" style="background:rgba(34,197,94,0.15);color:#22c55e">
+                            <i class="bi bi-check-lg"></i>
+                        </div>
+                        <div>
+                            <div class="hero-badge-title">Booking Confirmed</div>
+                            <div class="hero-badge-sub">Yoga · Tomorrow 7 AM</div>
+                        </div>
+                    </div>
+
+                    <!-- Badge: HIIT class -->
+                    <div class="hero-badge hero-badge-1">
+                        <div class="hero-badge-icon" style="background:rgba(232,66,10,0.2);color:var(--accent)">
+                            <i class="bi bi-fire"></i>
+                        </div>
+                        <div>
+                            <div class="hero-badge-title">HIIT Class Today</div>
+                            <div class="hero-badge-sub">6:00 AM · 12 spots left</div>
+                        </div>
+                    </div>
+
+                    <!-- Decorative orange border frame -->
+                    <div class="hero-stack-frame"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Scroll indicator -->
+    <div class="hero-scroll-hint">
+        <div class="hero-scroll-line"></div>
+        <span>SCROLL</span>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FEATURES STRIP
+═══════════════════════════════════════════ -->
+<section class="section-sm features-strip">
+    <div class="container">
+        <div class="row g-0">
+            <div class="col-6 col-md-3 feature-item reveal">
+                <div class="feature-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+                <div class="feature-title">PREMIUM EQUIPMENT</div>
+                <div class="feature-sub">State-of-the-art machines</div>
+            </div>
+            <div class="col-6 col-md-3 feature-item reveal reveal-delay-1">
+                <div class="feature-icon"><i class="bi bi-person-badge-fill"></i></div>
+                <div class="feature-title">EXPERT TRAINERS</div>
+                <div class="feature-sub">Certified professionals</div>
+            </div>
+            <div class="col-6 col-md-3 feature-item reveal reveal-delay-2">
+                <div class="feature-icon"><i class="bi bi-calendar3"></i></div>
+                <div class="feature-title">FLEXIBLE SCHEDULE</div>
+                <div class="feature-sub">50+ classes per week</div>
+            </div>
+            <div class="col-6 col-md-3 feature-item reveal reveal-delay-3">
+                <div class="feature-icon"><i class="bi bi-people-fill"></i></div>
+                <div class="feature-title">COMMUNITY</div>
+                <div class="feature-sub">2800+ motivated members</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     FEATURED CLASSES — REAL PHOTOS
+═══════════════════════════════════════════ -->
+{% if featured_classes %}
+<section class="section">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-7">
+                <div class="section-label reveal">Our Programs</div>
+                <h2 class="section-title reveal">FORGE YOUR <span class="text-gradient">PERFECT WORKOUT</span></h2>
+                <p class="section-subtitle reveal">From high-intensity HIIT to mindful yoga — classes for every level and goal.</p>
+            </div>
+            <div class="col-lg-5 d-flex align-items-end justify-content-lg-end mt-3 mt-lg-0">
+                <a href="{% url 'core:classes' %}" class="btn-outline-custom reveal">View All Classes <i class="bi bi-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+        <div class="row g-4">
+            {% for class in featured_classes %}
+            <div class="col-md-6 col-lg-4 reveal" style="transition-delay:{{ forloop.counter0 }}00ms">
+                <div class="card-gym card-gym-modern h-100">
+                    <div class="card-gym-img-wrap">
+                        {% if class.image %}
+                        <img src="{{ class.image.url }}" alt="{{ class.name }}" class="card-gym-image">
+                        {% else %}
+                        {# Real Unsplash photo per category #}
+                        {% if class.category == 'hiit' %}
+                        <img src="https://images.unsplash.com/photo-1517344368193-41552b6ad3f5?w=600&q=80&auto=format&fit=crop" alt="HIIT Training" class="card-gym-image">
+                        {% elif class.category == 'strength' %}
+                        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80&auto=format&fit=crop" alt="Strength Training" class="card-gym-image">
+                        {% elif class.category == 'yoga' %}
+                        <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600&q=80&auto=format&fit=crop" alt="Yoga" class="card-gym-image">
+                        {% elif class.category == 'boxing' %}
+                        <img src="https://images.unsplash.com/photo-1549476464-37392f717541?w=600&q=80&auto=format&fit=crop" alt="Boxing" class="card-gym-image">
+                        {% elif class.category == 'pilates' %}
+                        <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=80&auto=format&fit=crop" alt="Pilates" class="card-gym-image">
+                        {% elif class.category == 'spin' %}
+                        <img src="https://images.unsplash.com/photo-1534787238916-9ba6764efd4f?w=600&q=80&auto=format&fit=crop" alt="Spin Cycling" class="card-gym-image">
+                        {% elif class.category == 'cardio' %}
+                        <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=600&q=80&auto=format&fit=crop" alt="Cardio" class="card-gym-image">
+                        {% elif class.category == 'crossfit' %}
+                        <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?w=600&q=80&auto=format&fit=crop" alt="CrossFit" class="card-gym-image">
+                        {% else %}
+                        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=600&q=80&auto=format&fit=crop" alt="Gym Class" class="card-gym-image">
+                        {% endif %}
+                        {% endif %}
+
+                        <!-- gradient overlay on image -->
+                        <div class="card-gym-img-overlay"></div>
+                        <!-- Category badge on image -->
+                        <span class="card-badge card-badge-img">{{ class.get_category_display }}</span>
+                        <!-- Difficulty badge -->
+                        <span class="difficulty-pill difficulty-{{ class.difficulty }} card-diff-pill">{{ class.get_difficulty_display }}</span>
+                    </div>
+                    <div class="card-gym-body">
+                        <h3 class="card-gym-title">{{ class.name }}</h3>
+                        <p class="card-gym-desc">{{ class.description|truncatechars:95 }}</p>
+                        <div class="card-gym-meta">
+                            <span><i class="bi bi-clock me-1"></i>{{ class.duration_minutes }}min</span>
+                            <span><i class="bi bi-people me-1"></i>Max {{ class.max_capacity }}</span>
+                            {% if class.trainer %}<span><i class="bi bi-person me-1"></i>{{ class.trainer.name }}</span>{% endif %}
+                        </div>
+                        <a href="{% url 'core:schedule' %}" class="card-book-btn">
+                            Book Class <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- ═══════════════════════════════════════════
+     TRAINERS PREVIEW
+═══════════════════════════════════════════ -->
+{% if trainers %}
+<section class="section section-alt">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-lg-7">
+                <div class="section-label reveal">Our Team</div>
+                <h2 class="section-title reveal">MEET YOUR <span class="text-gradient">COACHES</span></h2>
+                <p class="section-subtitle reveal">World-class certified trainers committed to your transformation and success.</p>
+            </div>
+            <div class="col-lg-5 d-flex align-items-end justify-content-lg-end mt-3 mt-lg-0">
+                <a href="{% url 'core:trainers' %}" class="btn-outline-custom reveal">All Trainers <i class="bi bi-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+        <div class="row g-4">
+            {% for trainer in trainers %}
+            <div class="col-sm-6 col-lg-3 reveal" style="transition-delay:{{ forloop.counter0 }}00ms">
+                <div class="trainer-card">
+                    <div class="trainer-img-wrap">
+                        {% if trainer.photo %}
+                        <img src="{{ trainer.photo.url }}" alt="{{ trainer.name }}" class="trainer-img">
+                        {% else %}
+                        <div class="trainer-placeholder"><i class="bi bi-person-fill" style="font-size:4rem;color:var(--text-muted)"></i></div>
+                        {% endif %}
+                        <div class="trainer-overlay">
+                            <a href="{% url 'core:trainer_detail' trainer.slug %}" style="color:white;background:rgba(232,66,10,0.9);padding:0.4rem 1rem;border-radius:5px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.85rem;letter-spacing:0.06em">View Profile</a>
+                        </div>
+                    </div>
+                    <div class="trainer-info">
+                        <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:0.25rem">{{ trainer.name }}</h3>
+                        <p style="color:var(--accent);font-size:0.85rem;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:0.05em;margin-bottom:0.5rem">{{ trainer.specialty }}</p>
+                        <p style="color:var(--text-muted);font-size:0.8rem;margin:0"><i class="bi bi-award me-1"></i>{{ trainer.experience_years }} years experience</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- ═══════════════════════════════════════════
+     MEMBERSHIP PLANS
+═══════════════════════════════════════════ -->
+{% if membership_plans %}
+<section class="section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="section-label reveal justify-content-center">Pricing</div>
+            <h2 class="section-title reveal">CHOOSE YOUR <span class="text-gradient">PLAN</span></h2>
+            <p class="section-subtitle mx-auto reveal">Flexible memberships to fit your lifestyle and goals.</p>
+        </div>
+        <div class="row g-4 justify-content-center">
+            {% for plan in membership_plans %}
+            <div class="col-md-6 col-lg-4 reveal" style="transition-delay:{{ forloop.counter0 }}00ms">
+                <div class="plan-card {% if plan.is_featured %}featured{% endif %} h-100">
+                    <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:700;letter-spacing:0.05em;color:var(--text)">{{ plan.name }}</h3>
+                    <div class="plan-price"><span>$</span>{{ plan.price }}<span class="plan-period">/{{ plan.billing_period }}</span></div>
+                    <ul class="plan-features">
+                        {% for feature in plan.get_features_list %}
+                        <li><span class="check"><i class="bi bi-check-lg"></i></span>{{ feature }}</li>
+                        {% endfor %}
+                    </ul>
+                    <a href="{% url 'accounts:register' %}" class="btn-primary-custom w-100 justify-content-center">
+                        {% if plan.is_featured %}⚡ Get Started{% else %}Choose Plan{% endif %}
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- ═══════════════════════════════════════════
+     TESTIMONIALS
+═══════════════════════════════════════════ -->
+{% if testimonials %}
+<section class="section section-alt">
+    <div class="container">
+        <div class="text-center mb-5">
+            <div class="section-label reveal justify-content-center">Success Stories</div>
+            <h2 class="section-title reveal">WHAT MEMBERS <span class="text-gradient">SAY</span></h2>
+        </div>
+        <div class="row g-4">
+            {% for t in testimonials %}
+            <div class="col-md-6 col-lg-4 reveal" style="transition-delay:{{ forloop.counter0 }}00ms">
+                <div class="testimonial-card">
+                    <div class="testimonial-stars">{% for i in "12345"|make_list %}{% if forloop.counter <= t.rating %}★{% else %}☆{% endif %}{% endfor %}</div>
+                    <p class="testimonial-content">"{{ t.content }}"</p>
+                    <div class="d-flex align-items-center gap-2 mt-auto">
+                        {% if t.photo %}
+                        <img src="{{ t.photo.url }}" style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--accent)" alt="{{ t.name }}">
+                        {% else %}
+                        <div style="width:40px;height:40px;border-radius:50%;background:var(--surface-2);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-weight:700">{{ t.name.0 }}</div>
+                        {% endif %}
+                        <div>
+                            <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--text);font-size:0.95rem">{{ t.name }}</div>
+                            <div style="font-size:0.8rem;color:var(--text-muted)">{{ t.role }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- ═══════════════════════════════════════════
+     CTA BANNER
+═══════════════════════════════════════════ -->
+<section class="section" style="background:linear-gradient(135deg,var(--accent),#8b2400);position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.05) 1px,transparent 1px);background-size:40px 40px;opacity:0.5"></div>
+    <div class="container text-center" style="position:relative">
+        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,6vw,4.5rem);color:white;letter-spacing:0.04em;margin-bottom:1rem" class="reveal">READY TO TRANSFORM?</h2>
+        <p style="color:rgba(255,255,255,0.8);font-size:1.1rem;max-width:500px;margin:0 auto 2rem" class="reveal">Join thousands of members who have already changed their lives at IronForge Gym.</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap reveal">
+            <a href="{% url 'accounts:register' %}" style="background:white;color:var(--accent);font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.9rem 2.5rem;border-radius:6px;display:inline-flex;align-items:center;gap:0.5rem;transition:all 0.2s">
+                <i class="bi bi-lightning-fill"></i> Join IronForge
+            </a>
+            <a href="{% url 'core:schedule' %}" style="background:transparent;color:white;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.9rem 2rem;border-radius:6px;display:inline-flex;align-items:center;gap:0.5rem;border:2px solid rgba(255,255,255,0.5);transition:all 0.2s">
+                View Schedule
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

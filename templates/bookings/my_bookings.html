@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Bookings | IronForge Gym{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+    <div class="container">
+        <div class="section-label">My Sessions</div>
+        <h1 class="page-hero-title">MY <span class="text-gradient">BOOKINGS</span></h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'accounts:profile' %}">Profile</a></li>
+                <li class="breadcrumb-item active">Bookings</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <!-- Upcoming -->
+        <div class="mb-5">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
+                <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:700;color:var(--text);margin:0">
+                    <i class="bi bi-calendar-check text-accent me-2"></i>Upcoming Classes
+                    {% if upcoming_bookings %}<span style="font-size:0.9rem;color:var(--text-muted);font-weight:400;margin-left:0.5rem">({{ upcoming_bookings.count }})</span>{% endif %}
+                </h2>
+                <a href="{% url 'core:schedule' %}" class="btn-primary-custom" style="padding:0.5rem 1.2rem;font-size:0.9rem">
+                    <i class="bi bi-plus me-1"></i>Book New Class
+                </a>
+            </div>
+
+            {% if upcoming_bookings %}
+            <div style="display:flex;flex-direction:column;gap:0.75rem">
+                {% for booking in upcoming_bookings %}
+                <div style="background:var(--bg-card);border:1px solid {% if booking.status == 'confirmed' %}rgba(34,197,94,0.25){% else %}rgba(245,158,11,0.25){% endif %};border-radius:12px;padding:1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+                    <div style="width:50px;height:50px;border-radius:12px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0">
+                        {{ booking.schedule.gym_class.icon }}
+                    </div>
+                    <div class="flex-grow-1">
+                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--text);font-size:1.1rem">{{ booking.schedule.gym_class.name }}</div>
+                        <div style="font-size:0.82rem;color:var(--text-muted);margin-top:0.25rem;display:flex;gap:1rem;flex-wrap:wrap">
+                            <span><i class="bi bi-calendar3 me-1"></i>{{ booking.booking_date|date:"l, F j, Y" }}</span>
+                            <span><i class="bi bi-clock me-1"></i>{{ booking.schedule.start_time|time:"g:i A" }}</span>
+                            <span><i class="bi bi-geo-alt me-1"></i>{{ booking.schedule.room }}</span>
+                            {% if booking.schedule.gym_class.trainer %}<span><i class="bi bi-person me-1"></i>{{ booking.schedule.gym_class.trainer.name }}</span>{% endif %}
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap">
+                        <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:0.25rem 0.7rem;border-radius:4px;
+                            {% if booking.status == 'confirmed' %}background:rgba(34,197,94,0.1);color:#22c55e;border:1px solid rgba(34,197,94,0.2)
+                            {% else %}background:rgba(245,158,11,0.1);color:#f59e0b;border:1px solid rgba(245,158,11,0.2){% endif %}">
+                            {{ booking.status|upper }}
+                        </span>
+                        {% if booking.status == 'confirmed' %}
+                        <form method="post" action="{% url 'bookings:cancel_booking' booking.id %}" style="display:inline">
+                            {% csrf_token %}
+                            <button type="submit" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);color:#ef4444;font-family:'Barlow Condensed',sans-serif;font-size:0.8rem;font-weight:600;padding:0.25rem 0.7rem;border-radius:4px;cursor:pointer;transition:all 0.2s;letter-spacing:0.04em" onclick="return confirm('Cancel this booking?')">
+                                <i class="bi bi-x me-1"></i>Cancel
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:3rem;text-align:center;color:var(--text-muted)">
+                <div style="font-size:3rem;margin-bottom:1rem">📅</div>
+                <h3 style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--text);margin-bottom:0.5rem">No upcoming bookings</h3>
+                <p style="margin-bottom:1.25rem">Book a class to get started on your fitness journey.</p>
+                <a href="{% url 'core:schedule' %}" class="btn-primary-custom"><i class="bi bi-calendar3 me-1"></i>Browse Schedule</a>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Past Bookings -->
+        {% if past_bookings %}
+        <div>
+            <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:1.5rem">
+                <i class="bi bi-clock-history text-accent me-2"></i>Past Classes
+            </h2>
+            <div style="display:flex;flex-direction:column;gap:0.6rem">
+                {% for booking in past_bookings %}
+                <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:1rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;opacity:0.7">
+                    <div style="width:42px;height:42px;border-radius:10px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0">
+                        {{ booking.schedule.gym_class.icon }}
+                    </div>
+                    <div class="flex-grow-1">
+                        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--text);font-size:1rem">{{ booking.schedule.gym_class.name }}</div>
+                        <div style="font-size:0.8rem;color:var(--text-muted);margin-top:0.15rem">{{ booking.booking_date|date:"D, M j Y" }} · {{ booking.schedule.start_time|time:"g:i A" }}</div>
+                    </div>
+                    <span style="font-family:'Barlow Condensed',sans-serif;font-size:0.75rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:4px;
+                        {% if booking.status == 'attended' %}background:rgba(99,102,241,0.1);color:#818cf8
+                        {% elif booking.status == 'cancelled' %}background:rgba(239,68,68,0.1);color:#ef4444
+                        {% else %}background:rgba(100,100,120,0.1);color:var(--text-muted){% endif %}">
+                        {{ booking.status|upper }}
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

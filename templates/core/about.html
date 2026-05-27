@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us | IronForge Gym{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+    <div class="container">
+        <div class="section-label">Our Story</div>
+        <h1 class="page-hero-title">ABOUT <span class="text-gradient">IRONFORGE</span></h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+                <li class="breadcrumb-item active">About</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <div class="row g-5 align-items-center mb-5">
+            <div class="col-lg-6 reveal">
+                <div class="section-label">Who We Are</div>
+                <h2 class="section-title">MORE THAN JUST A <span class="text-gradient">GYM</span></h2>
+                <p style="color:var(--text-light);line-height:1.8;margin-bottom:1.25rem">
+                    Founded in 2012, IronForge was built on a simple belief: every person has the potential for extraordinary strength. We created a space where beginners and elite athletes alike can train hard, grow fast, and forge the body and mindset of a champion.
+                </p>
+                <p style="color:var(--text-light);line-height:1.8;margin-bottom:1.5rem">
+                    Over 12 years, we've helped thousands of members lose weight, build muscle, run their first 5K, lift their first barbell, and most importantly — discover what they're truly capable of.
+                </p>
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="stat-box">
+                            <div class="stat-box-number" data-count="2847" data-suffix="+">0</div>
+                            <div class="stat-box-label">Active Members</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-box">
+                            <div class="stat-box-number" data-count="12">0</div>
+                            <div class="stat-box-label">Years Operating</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-box">
+                            <div class="stat-box-number" data-count="50" data-suffix="+">0</div>
+                            <div class="stat-box-label">Weekly Classes</div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="stat-box">
+                            <div class="stat-box-number" data-count="{{ trainers.count }}">0</div>
+                            <div class="stat-box-label">Expert Trainers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 reveal reveal-delay-2">
+                <div style="border-radius:16px;overflow:hidden;background:var(--surface);border:1px solid var(--border);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;position:relative">
+                    <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" style="width:80%;opacity:0.6">
+                        <rect x="50" y="150" width="500" height="80" rx="20" fill="url(#aboutBar)"/>
+                        <rect x="30" y="130" width="80" height="120" rx="12" fill="#e8420a" opacity="0.8"/>
+                        <rect x="490" y="130" width="80" height="120" rx="12" fill="#e8420a" opacity="0.8"/>
+                        <rect x="10" y="145" width="40" height="90" rx="8" fill="#c23508" opacity="0.9"/>
+                        <rect x="550" y="145" width="40" height="90" rx="8" fill="#c23508" opacity="0.9"/>
+                        <defs>
+                            <linearGradient id="aboutBar" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="#888"/>
+                                <stop offset="50%" stop-color="#ddd"/>
+                                <stop offset="100%" stop-color="#777"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div style="position:absolute;bottom:1.5rem;right:1.5rem;background:var(--accent);color:white;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.05em;padding:0.5rem 1rem;border-radius:6px">EST. 2012</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Values -->
+        <div class="divider-accent"></div>
+        <div class="text-center mb-4 reveal">
+            <div class="section-label justify-content-center">Our Values</div>
+            <h2 class="section-title">WHAT DRIVES <span class="text-gradient">IRONFORGE</span></h2>
+        </div>
+        <div class="row g-4 mb-5">
+            <div class="col-md-6 col-lg-3 reveal">
+                <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:1.75rem;height:100%;text-align:center;transition:all 0.3s">
+                    <div style="font-size:2.5rem;margin-bottom:1rem">🔥</div>
+                    <h4 style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:0.05em;color:var(--text);margin-bottom:0.5rem">INTENSITY</h4>
+                    <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.6;margin:0">We train hard and push limits. Every session counts, every rep matters.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 reveal reveal-delay-1">
+                <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:1.75rem;height:100%;text-align:center;transition:all 0.3s">
+                    <div style="font-size:2.5rem;margin-bottom:1rem">🎯</div>
+                    <h4 style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:0.05em;color:var(--text);margin-bottom:0.5rem">PRECISION</h4>
+                    <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.6;margin:0">Expert coaching with science-backed methods for real, lasting results.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 reveal reveal-delay-2">
+                <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:1.75rem;height:100%;text-align:center;transition:all 0.3s">
+                    <div style="font-size:2.5rem;margin-bottom:1rem">🤝</div>
+                    <h4 style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:0.05em;color:var(--text);margin-bottom:0.5rem">COMMUNITY</h4>
+                    <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.6;margin:0">A supportive family of members who push each other to be better every day.</p>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-3 reveal reveal-delay-3">
+                <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:1.75rem;height:100%;text-align:center;transition:all 0.3s">
+                    <div style="font-size:2.5rem;margin-bottom:1rem">💪</div>
+                    <h4 style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;letter-spacing:0.05em;color:var(--text);margin-bottom:0.5rem">RESULTS</h4>
+                    <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.6;margin:0">Your transformation is our mission. We measure success in your progress.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trainers Preview -->
+        {% if trainers %}
+        <div class="divider-accent"></div>
+        <div class="text-center mb-4 reveal">
+            <div class="section-label justify-content-center">The Team</div>
+            <h2 class="section-title">MEET THE <span class="text-gradient">COACHES</span></h2>
+        </div>
+        <div class="row g-4">
+            {% for trainer in trainers %}
+            <div class="col-sm-6 col-lg-3 reveal" style="transition-delay:{{ forloop.counter0 }}00ms">
+                <div class="trainer-card">
+                    <div class="trainer-img-wrap" style="height:220px">
+                        {% if trainer.photo %}
+                        <img src="{{ trainer.photo.url }}" alt="{{ trainer.name }}" class="trainer-img">
+                        {% else %}
+                        <div class="trainer-placeholder" style="font-size:4rem">💪</div>
+                        {% endif %}
+                        <div class="trainer-overlay">
+                            <a href="{% url 'core:trainer_detail' trainer.slug %}" style="color:white;background:rgba(232,66,10,0.9);padding:0.35rem 0.9rem;border-radius:5px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.82rem;letter-spacing:0.06em">Profile</a>
+                        </div>
+                    </div>
+                    <div class="trainer-info" style="padding:1rem">
+                        <h4 style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:0.2rem">{{ trainer.name }}</h4>
+                        <p style="color:var(--accent);font-size:0.82rem;font-family:'Barlow Condensed',sans-serif;font-weight:600;margin:0">{{ trainer.specialty }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="section section-alt">
+    <div class="container text-center">
+        <div class="section-label reveal justify-content-center">Get Started</div>
+        <h2 class="section-title reveal">READY TO <span class="text-gradient">JOIN US?</span></h2>
+        <p style="color:var(--text-muted);max-width:500px;margin:0 auto 2rem" class="reveal">Your first step to transformation starts right here. Join thousands of members who chose IronForge.</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap reveal">
+            <a href="{% url 'accounts:register' %}" class="btn-primary-custom"><i class="bi bi-lightning-fill me-1"></i>Join IronForge</a>
+            <a href="{% url 'core:contact' %}" class="btn-outline-custom"><i class="bi bi-envelope me-1"></i>Contact Us</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

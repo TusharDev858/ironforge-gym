@@ -1,0 +1,29 @@
+{% extends 'admin_panel/base.html' %}
+{% block title %}Delete {{ obj_type }} | IronForge Manage{% endblock %}
+{% block page_title %}Delete {{ obj_type }}{% endblock %}
+
+{% block content %}
+<div style="max-width:520px;margin:0 auto">
+    <div class="ap-card" style="border-color:rgba(239,68,68,0.3)">
+        <div style="padding:2rem;text-align:center">
+            <div style="width:64px;height:64px;border-radius:50%;background:rgba(239,68,68,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:1.8rem;color:#ef4444">
+                <i class="bi bi-trash3"></i>
+            </div>
+            <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:0.5rem">Delete {{ obj_type }}?</h2>
+            <p style="color:var(--text-muted);font-size:0.95rem;margin-bottom:1.75rem">
+                You are about to permanently delete <strong style="color:var(--text)">{{ obj }}</strong>.<br>
+                This action <strong style="color:#ef4444">cannot be undone</strong>.
+            </p>
+            <form method="post" style="display:flex;gap:0.75rem;justify-content:center;flex-wrap:wrap">
+                {% csrf_token %}
+                <button type="submit" style="background:#ef4444;color:white;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.7rem 1.75rem;border-radius:6px;border:none;cursor:pointer;font-size:0.95rem;transition:all 0.2s">
+                    <i class="bi bi-trash3 me-1"></i>Yes, Delete
+                </button>
+                <a href="{% url back_url %}" class="btn-outline-custom" style="padding:0.7rem 1.5rem;font-size:0.9rem">
+                    <i class="bi bi-x me-1"></i>Cancel
+                </a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,177 @@
+{% extends 'admin_panel/base.html' %}
+{% block title %}{{ title }} | IronForge Manage{% endblock %}
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="ap-page-header">
+    <div class="ap-page-title">{{ title|upper }}</div>
+    <a href="{% url back_url %}" class="ap-action ap-action-view"><i class="bi bi-arrow-left me-1"></i>Back</a>
+</div>
+
+<form method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    <div class="ap-form-section">
+        <div class="row g-3">
+            {% for field in form %}
+            <div class="{% if field.field.widget.input_type == 'textarea' or field.field.widget.attrs.rows %}col-12{% elif field.field.widget.input_type == 'checkbox' %}col-12{% else %}col-md-6{% endif %}">
+                {% if field.field.widget.input_type == 'checkbox' %}
+                <div class="form-check" style="padding-top:0.25rem">
+                    {{ field }}
+                    <label class="form-check-label" for="{{ field.id_for_label }}" style="font-family:'Barlow',sans-serif;font-size:0.9rem;color:var(--text-light)">
+                        {{ field.label }}
+                    </label>
+                </div>
+                {% elif field.field.widget.input_type == 'file' %}
+                {# ── IMAGE UPLOAD WITH LIVE PREVIEW ── #}
+                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                <div class="img-upload-wrap" id="wrap_{{ field.html_name }}">
+                    {# Show existing image if editing #}
+                    {% if obj %}
+                      {% with cur=obj.photo|default:obj.image|default:'' %}
+                      {% if cur %}
+                      <div class="img-preview-box" id="preview_{{ field.html_name }}">
+                          <img src="{{ cur.url }}" alt="Current image" class="img-preview-img">
+                          <div class="img-preview-label">Current image — upload below to replace</div>
+                      </div>
+                      {% endif %}
+                      {% endwith %}
+                    {% endif %}
+                    {# Live preview target (hidden until file chosen) #}
+                    <div class="img-preview-box" id="newpreview_{{ field.html_name }}" style="display:none">
+                        <img src="" alt="New image" class="img-preview-img" id="newimg_{{ field.html_name }}">
+                        <div class="img-preview-label">New image (not saved yet)</div>
+                    </div>
+                    {# Drop zone #}
+                    <label class="img-dropzone" for="{{ field.id_for_label }}" id="drop_{{ field.html_name }}">
+                        <i class="bi bi-cloud-arrow-up" style="font-size:1.8rem;color:var(--accent)"></i>
+                        <span style="font-size:0.9rem;color:var(--text-muted)">Click or drag &amp; drop an image here</span>
+                        <span style="font-size:0.75rem;color:var(--text-muted)">JPG, PNG, WEBP — max 5 MB</span>
+                        {{ field }}
+                    </label>
+                </div>
+                {% if field.help_text %}<div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.25rem">{{ field.help_text }}</div>{% endif %}
+                {% if field.errors %}<div class="field-error">{{ field.errors.0 }}</div>{% endif %}
+
+                {% else %}
+                <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}<div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.25rem">{{ field.help_text }}</div>{% endif %}
+                {% if field.errors %}<div class="field-error">{{ field.errors.0 }}</div>{% endif %}
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
+        <button type="submit" class="btn-primary-custom" style="padding:0.7rem 2rem;font-size:0.9rem">
+            <i class="bi bi-check-lg me-1"></i>
+            {% if obj %}Save Changes{% else %}Create{% endif %}
+        </button>
+        <a href="{% url back_url %}" class="btn-outline-custom" style="padding:0.7rem 1.5rem;font-size:0.9rem">
+            <i class="bi bi-x me-1"></i>Cancel
+        </a>
+    </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<style>
+/* Image upload widget */
+.img-upload-wrap { display:flex; flex-direction:column; gap:0.75rem; }
+
+.img-preview-box {
+    position:relative;
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid var(--border);
+    background:var(--surface);
+    max-width:360px;
+}
+.img-preview-img {
+    width:100%;
+    max-height:220px;
+    object-fit:cover;
+    display:block;
+}
+.img-preview-label {
+    position:absolute;
+    bottom:0; left:0; right:0;
+    background:rgba(0,0,0,0.55);
+    color:rgba(255,255,255,0.85);
+    font-size:0.72rem;
+    padding:0.3rem 0.6rem;
+    font-family:'Barlow Condensed',sans-serif;
+    letter-spacing:0.04em;
+}
+
+.img-dropzone {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:0.4rem;
+    border:2px dashed var(--border);
+    border-radius:10px;
+    padding:1.5rem 1rem;
+    cursor:pointer;
+    transition:border-color 0.2s, background 0.2s;
+    background:var(--surface);
+    text-align:center;
+}
+.img-dropzone:hover,
+.img-dropzone.dragover {
+    border-color:var(--accent);
+    background:rgba(232,66,10,0.04);
+}
+/* Hide the raw file input inside the dropzone */
+.img-dropzone input[type=file] {
+    position:absolute;
+    width:1px; height:1px;
+    opacity:0; overflow:hidden;
+}
+</style>
+
+<script>
+document.querySelectorAll('.img-dropzone').forEach(function(zone) {
+    var input   = zone.querySelector('input[type=file]');
+    var htmlName = input ? input.name : null;
+    if (!input || !htmlName) return;
+
+    var newBox  = document.getElementById('newpreview_' + htmlName);
+    var newImg  = document.getElementById('newimg_' + htmlName);
+
+    function showPreview(file) {
+        if (!file || !file.type.startsWith('image/')) return;
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            if (newImg) { newImg.src = e.target.result; }
+            if (newBox) { newBox.style.display = 'block'; }
+        };
+        reader.readAsDataURL(file);
+    }
+
+    input.addEventListener('change', function() {
+        if (this.files && this.files[0]) showPreview(this.files[0]);
+    });
+
+    zone.addEventListener('dragover', function(e) {
+        e.preventDefault(); zone.classList.add('dragover');
+    });
+    zone.addEventListener('dragleave', function() {
+        zone.classList.remove('dragover');
+    });
+    zone.addEventListener('drop', function(e) {
+        e.preventDefault(); zone.classList.remove('dragover');
+        var file = e.dataTransfer.files[0];
+        if (file) {
+            // Transfer file to the real input
+            var dt = new DataTransfer();
+            dt.items.add(file);
+            input.files = dt.files;
+            showPreview(file);
+        }
+    });
+});
+</script>
+{% endblock %}

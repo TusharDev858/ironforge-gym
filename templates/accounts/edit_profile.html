@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile | IronForge Gym{% endblock %}
+
+{% block content %}
+<div class="page-hero">
+    <div class="container">
+        <div class="section-label">Settings</div>
+        <h1 class="page-hero-title">EDIT <span class="text-gradient">PROFILE</span></h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'core:home' %}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{% url 'accounts:profile' %}">Profile</a></li>
+                <li class="breadcrumb-item active">Edit</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<section class="section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+
+                    <!-- Personal Info -->
+                    <div class="form-section">
+                        <div class="form-section-title"><i class="bi bi-person"></i> Personal Information</div>
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label class="form-label">First Name</label>
+                                {{ user_form.first_name }}
+                                {% if user_form.first_name.errors %}<div style="color:#ef4444;font-size:0.8rem;margin-top:0.25rem">{{ user_form.first_name.errors.0 }}</div>{% endif %}
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Last Name</label>
+                                {{ user_form.last_name }}
+                                {% if user_form.last_name.errors %}<div style="color:#ef4444;font-size:0.8rem;margin-top:0.25rem">{{ user_form.last_name.errors.0 }}</div>{% endif %}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Email Address</label>
+                                {{ user_form.email }}
+                                {% if user_form.email.errors %}<div style="color:#ef4444;font-size:0.8rem;margin-top:0.25rem">{{ user_form.email.errors.0 }}</div>{% endif %}
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Phone Number</label>
+                                {{ profile_form.phone }}
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Date of Birth</label>
+                                {{ profile_form.date_of_birth }}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Profile Photo</label>
+                                {{ profile_form.avatar }}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Bio</label>
+                                {{ profile_form.bio }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Body Stats -->
+                    <div class="form-section">
+                        <div class="form-section-title"><i class="bi bi-body-text"></i> Body Stats</div>
+                        <div class="row g-3">
+                            <div class="col-sm-4">
+                                <label class="form-label">Height (cm)</label>
+                                {{ profile_form.height_cm }}
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="form-label">Weight (kg)</label>
+                                {{ profile_form.weight_kg }}
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="form-label">Body Fat %</label>
+                                {{ profile_form.body_fat_percentage }}
+                            </div>
+                        </div>
+                        <p style="font-size:0.8rem;color:var(--text-muted);margin-top:0.5rem"><i class="bi bi-shield-lock me-1"></i>Your body stats are private and only visible to you.</p>
+                    </div>
+
+                    <!-- Fitness Goals -->
+                    <div class="form-section">
+                        <div class="form-section-title"><i class="bi bi-lightning"></i> Fitness Goals</div>
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label class="form-label">Primary Goal</label>
+                                {{ profile_form.fitness_goal }}
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Activity Level</label>
+                                {{ profile_form.activity_level }}
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Experience Level</label>
+                                {{ profile_form.experience_level }}
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Health Conditions / Injuries</label>
+                                {{ profile_form.health_conditions }}
+                                <div style="font-size:0.78rem;color:var(--text-muted);margin-top:0.25rem">Help our trainers provide better guidance.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Emergency Contact -->
+                    <div class="form-section">
+                        <div class="form-section-title"><i class="bi bi-telephone-plus"></i> Emergency Contact</div>
+                        <div class="row g-3">
+                            <div class="col-sm-6">
+                                <label class="form-label">Contact Name</label>
+                                {{ profile_form.emergency_contact }}
+                            </div>
+                            <div class="col-sm-6">
+                                <label class="form-label">Contact Phone</label>
+                                {{ profile_form.emergency_phone }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-3 flex-wrap">
+                        <button type="submit" class="btn-primary-custom">
+                            <i class="bi bi-check-lg me-1"></i>Save Changes
+                        </button>
+                        <a href="{% url 'accounts:profile' %}" class="btn-outline-custom">
+                            <i class="bi bi-x me-1"></i>Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

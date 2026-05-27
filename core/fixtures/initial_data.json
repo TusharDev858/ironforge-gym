@@ -1,0 +1,468 @@
+[
+  {
+    "model": "core.trainer",
+    "pk": 1,
+    "fields": {
+      "name": "Marcus Steel",
+      "slug": "marcus-steel",
+      "specialty": "Strength & Powerlifting",
+      "bio": "Marcus is a nationally certified powerlifting coach with 10+ years of experience transforming athletes and everyday gym-goers. His no-nonsense approach to strength training has helped over 500 members reach PRs they never thought possible. A former competitive powerlifter himself, Marcus brings both science and passion to every session.",
+      "photo": "",
+      "experience_years": 10,
+      "certifications": "NSCA-CSCS, USA Powerlifting Coach, CPR/AED",
+      "instagram": "",
+      "order": 1,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.trainer",
+    "pk": 2,
+    "fields": {
+      "name": "Sofia Reyes",
+      "slug": "sofia-reyes",
+      "specialty": "Yoga & Mindful Movement",
+      "bio": "Sofia brings over 8 years of yoga teaching experience, blending traditional Hatha with modern movement science. Her classes are a sanctuary of strength, flexibility, and mental clarity. She is a 500-hour RYT and has trained with masters in India and Bali. Sofia believes true fitness begins with a calm, focused mind.",
+      "photo": "",
+      "experience_years": 8,
+      "certifications": "RYT-500, Mindfulness Coach, Prenatal Yoga",
+      "instagram": "",
+      "order": 2,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.trainer",
+    "pk": 3,
+    "fields": {
+      "name": "Jordan Cross",
+      "slug": "jordan-cross",
+      "specialty": "HIIT & Functional Fitness",
+      "bio": "Jordan is a high-energy HIIT specialist who has competed in CrossFit regionals and holds multiple certifications in functional movement. Known for his intense yet approachable style, Jordan creates workouts that burn maximum calories while building real-world strength. He's helped hundreds of members crush their weight-loss and conditioning goals.",
+      "photo": "",
+      "experience_years": 6,
+      "certifications": "CrossFit Level 2, NASM-CPT, HIIT Specialist",
+      "instagram": "",
+      "order": 3,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.trainer",
+    "pk": 4,
+    "fields": {
+      "name": "Amara Diallo",
+      "slug": "amara-diallo",
+      "specialty": "Boxing & Kickboxing",
+      "bio": "Former amateur boxing champion turned fitness coach, Amara brings authentic ring experience to her high-energy boxing classes. With 7 years of coaching, she has trained everyone from beginners looking to burn calories to competitive fighters preparing for their next bout. Her classes are intense, technical, and addictively fun.",
+      "photo": "",
+      "experience_years": 7,
+      "certifications": "USA Boxing Coach, ACE-CPT, Kickboxing Instructor",
+      "instagram": "",
+      "order": 4,
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.gymclass",
+    "pk": 1,
+    "fields": {
+      "name": "Iron Strength",
+      "slug": "iron-strength",
+      "category": "strength",
+      "description": "Build raw, functional strength with this barbell-focused program. Covers squats, deadlifts, bench press, and overhead press using progressive overload principles. Perfect for building a solid foundation.",
+      "trainer": 1,
+      "difficulty": "intermediate",
+      "duration_minutes": 60,
+      "max_capacity": 15,
+      "image": "",
+      "icon": "🏋️",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.gymclass",
+    "pk": 2,
+    "fields": {
+      "name": "Blaze HIIT",
+      "slug": "blaze-hiit",
+      "category": "hiit",
+      "description": "High-intensity interval training designed to torch calories and build cardiovascular endurance. Alternate between explosive bursts and active recovery in a heart-pumping 45-minute session.",
+      "trainer": 3,
+      "difficulty": "advanced",
+      "duration_minutes": 45,
+      "max_capacity": 20,
+      "image": "",
+      "icon": "🔥",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.gymclass",
+    "pk": 3,
+    "fields": {
+      "name": "Flow Yoga",
+      "slug": "flow-yoga",
+      "category": "yoga",
+      "description": "A dynamic Vinyasa flow connecting breath with movement. Improve flexibility, balance, and mindfulness in this rejuvenating class suitable for all experience levels.",
+      "trainer": 2,
+      "difficulty": "all",
+      "duration_minutes": 60,
+      "max_capacity": 25,
+      "image": "",
+      "icon": "🧘",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.gymclass",
+    "pk": 4,
+    "fields": {
+      "name": "KnockOut Boxing",
+      "slug": "knockout-boxing",
+      "category": "boxing",
+      "description": "Learn authentic boxing technique while getting an incredible full-body workout. Covers jabs, crosses, hooks, footwork, and combinations on heavy bags and pads.",
+      "trainer": 4,
+      "difficulty": "beginner",
+      "duration_minutes": 60,
+      "max_capacity": 18,
+      "image": "",
+      "icon": "🥊",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.gymclass",
+    "pk": 5,
+    "fields": {
+      "name": "Spin Cycle",
+      "slug": "spin-cycle",
+      "category": "spin",
+      "description": "High-energy indoor cycling class set to pumping music. Simulate climbs, sprints, and flat roads in a motivating group environment. Burn up to 600 calories per session.",
+      "trainer": 3,
+      "difficulty": "all",
+      "duration_minutes": 45,
+      "max_capacity": 20,
+      "image": "",
+      "icon": "🚴",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.gymclass",
+    "pk": 6,
+    "fields": {
+      "name": "Core Forge",
+      "slug": "core-forge",
+      "category": "pilates",
+      "description": "Target your core, stabilizers, and posture muscles with precision pilates-inspired movements. Build functional strength from the inside out. Great for injury prevention and athletic performance.",
+      "trainer": 2,
+      "difficulty": "beginner",
+      "duration_minutes": 50,
+      "max_capacity": 20,
+      "image": "",
+      "icon": "💪",
+      "is_active": true
+    }
+  },
+  {
+    "model": "core.classschedule",
+    "pk": 1,
+    "fields": {"gym_class": 1, "day_of_week": 0, "start_time": "06:00:00", "end_time": "07:00:00", "room": "Weight Room", "is_active": true}
+  },
+  {
+    "model": "core.classschedule",
+    "pk": 2,
+    "fields": {"gym_class": 2, "day_of_week": 0, "start_time": "09:00:00", "end_time": "09:45:00", "room": "Studio A", "is_active": true}
+  },
+  {
+    "model": "core.classschedule",
+    "pk": 3,
+    "fields": {"gym_class": 3, "day_of_week": 0, "start_time": "18:00:00", "end_time": "19:00:00", "room": "Yoga Studio", "is_active": true}
+  },
+  {
+    "model": "core.classschedule",
+    "pk": 4,
+    "fields": {"gym_class": 4, "day_of_week": 1, "start_time": "07:00:00", "end_time": "08:00:00", "room": "Boxing Ring", "is_active": true}
+  },
+  {
+    "model": "core.classschedule",
+    "pk": 5,
+    "fields": {"gym_class": 5, "day_of_week": 1, "start_time": "09:00:00", "end_time": "09:45:00", "room": "Spin Studio", "is_active": true}
+  },
+  {
+    "model": "core.classschedule",
+    "pk": 6,
+    "fields": {"gym_class": 1, "day_of_week": 2, "start_time": "06:00:00", "end_time": "07:00:00", "room": "Weight Room", "is_active": true}
+  },
+  {
+    "model": "core.classschedule",
+    "pk": 7,
+    "fields": {"gym_class": 2, "day_of_week": 2, "start_time": "17:30:00", "end_time": "18:15:00", "room": "Studio A", "is_active": true}
+  },
+  {
+    "model": "core.classschedule",
+    "pk": 8,
+    "fields": {"gym_class": 6, "day_of_week": 3, "start_time": "08:00:00", "end_time": "08:50:00", "room": "Studio B", "is_active": true}
+  },
+  {
+    "model": "core.classschedule",
+    "pk": 9,
+    "fields": {"gym_class": 4, "day_of_week": 3, "start_time": "19:00:00", "end_time": "20:00:00", "room": "Boxing Ring", "is_active": true}
+  },
+  {
+    "model": "core.classschedule",
+    "pk": 10,
+    "fields": {"gym_class": 3, "day_of_week": 4, "start_time": "07:00:00", "end_time": "08:00:00", "room": "Yoga Studio", "is_active": true}
+  },
+  {
+    "model": "core.classschedule",
+    "pk": 11,
+    "fields": {"gym_class": 5, "day_of_week": 4, "start_time": "18:00:00", "end_time": "18:45:00", "room": "Spin Studio", "is_active": true}
+  },
+  {
+    "model": "core.classschedule",
+    "pk": 12,
+    "fields": {"gym_class": 1, "day_of_week": 5, "start_time": "09:00:00", "end_time": "10:00:00", "room": "Weight Room", "is_active": true}
+  },
+  {
+    "model": "core.classschedule",
+    "pk": 13,
+    "fields": {"gym_class": 2, "day_of_week": 5, "start_time": "10:30:00", "end_time": "11:15:00", "room": "Studio A", "is_active": true}
+  },
+  {
+    "model": "core.classschedule",
+    "pk": 14,
+    "fields": {"gym_class": 3, "day_of_week": 6, "start_time": "09:00:00", "end_time": "10:00:00", "room": "Yoga Studio", "is_active": true}
+  },
+  {
+    "model": "core.classschedule",
+    "pk": 15,
+    "fields": {"gym_class": 6, "day_of_week": 6, "start_time": "11:00:00", "end_time": "11:50:00", "room": "Studio B", "is_active": true}
+  },
+  {
+    "model": "core.exercise",
+    "pk": 1,
+    "fields": {
+      "name": "Barbell Squat",
+      "slug": "barbell-squat",
+      "muscle_group": "legs",
+      "equipment": "barbell",
+      "description": "The king of all exercises. Builds total lower body strength and mass while engaging your core and back.",
+      "instructions": "1. Position barbell on upper traps\n2. Stand with feet shoulder-width apart, toes slightly out\n3. Take a deep breath and brace your core\n4. Descend by pushing knees out and hips back\n5. Lower until thighs are parallel or below\n6. Drive through heels to return to start",
+      "sets_reps": "4 sets x 5-8 reps",
+      "difficulty": "intermediate",
+      "image": "",
+      "video_url": "",
+      "calories_per_hour": 420,
+      "is_featured": true
+    }
+  },
+  {
+    "model": "core.exercise",
+    "pk": 2,
+    "fields": {
+      "name": "Deadlift",
+      "slug": "deadlift",
+      "muscle_group": "back",
+      "equipment": "barbell",
+      "description": "The ultimate full-body strength movement. Develops powerful posterior chain muscles including hamstrings, glutes, and back.",
+      "instructions": "1. Stand with feet hip-width, bar over mid-foot\n2. Hinge at hips and grip bar just outside legs\n3. Flatten your back and brace core tightly\n4. Push floor away as you lift the bar\n5. Lock out hips and knees simultaneously at top\n6. Hinge back to lower with control",
+      "sets_reps": "3 sets x 3-5 reps",
+      "difficulty": "advanced",
+      "image": "",
+      "video_url": "",
+      "calories_per_hour": 450,
+      "is_featured": true
+    }
+  },
+  {
+    "model": "core.exercise",
+    "pk": 3,
+    "fields": {
+      "name": "Push-Up",
+      "slug": "push-up",
+      "muscle_group": "chest",
+      "equipment": "bodyweight",
+      "description": "A timeless bodyweight staple. Builds chest, tricep, and shoulder strength with zero equipment needed.",
+      "instructions": "1. Place hands slightly wider than shoulders\n2. Keep body in a straight line from head to heels\n3. Brace core and glutes throughout\n4. Lower chest to an inch from the ground\n5. Press back up to full arm extension\n6. Keep elbows at 45° from body",
+      "sets_reps": "3 sets x 10-20 reps",
+      "difficulty": "beginner",
+      "image": "",
+      "video_url": "",
+      "calories_per_hour": 300,
+      "is_featured": false
+    }
+  },
+  {
+    "model": "core.exercise",
+    "pk": 4,
+    "fields": {
+      "name": "Pull-Up",
+      "slug": "pull-up",
+      "muscle_group": "back",
+      "equipment": "pull_up_bar",
+      "description": "The ultimate upper body pulling movement. Builds a wide, strong back and powerful biceps.",
+      "instructions": "1. Hang from bar with palms facing away\n2. Retract shoulder blades before pulling\n3. Pull elbows down toward hips\n4. Lead with chest to the bar\n5. Hold briefly at top\n6. Lower with control over 2-3 seconds",
+      "sets_reps": "3 sets x max reps",
+      "difficulty": "intermediate",
+      "image": "",
+      "video_url": "",
+      "calories_per_hour": 350,
+      "is_featured": true
+    }
+  },
+  {
+    "model": "core.exercise",
+    "pk": 5,
+    "fields": {
+      "name": "Kettlebell Swing",
+      "slug": "kettlebell-swing",
+      "muscle_group": "glutes",
+      "equipment": "kettlebell",
+      "description": "A powerful hip hinge movement that builds explosive glute and hamstring strength while elevating your heart rate.",
+      "instructions": "1. Stand with feet wider than hip-width\n2. Hinge back, let bell swing between legs\n3. Drive hips forward explosively\n4. Let momentum carry bell to shoulder height\n5. Control the swing back through legs\n6. Repeat with rhythm and power",
+      "sets_reps": "4 sets x 15-20 reps",
+      "difficulty": "intermediate",
+      "image": "",
+      "video_url": "",
+      "calories_per_hour": 500,
+      "is_featured": true
+    }
+  },
+  {
+    "model": "core.exercise",
+    "pk": 6,
+    "fields": {
+      "name": "Plank",
+      "slug": "plank",
+      "muscle_group": "core",
+      "equipment": "bodyweight",
+      "description": "The gold standard core stability exercise. Builds deep abdominal strength and total body tension.",
+      "instructions": "1. Start in push-up position\n2. Lower to forearms if needed\n3. Keep body in perfect straight line\n4. Brace abs as if taking a punch\n5. Squeeze glutes and legs\n6. Breathe steadily, hold the position",
+      "sets_reps": "3 sets x 30-60 seconds",
+      "difficulty": "beginner",
+      "image": "",
+      "video_url": "",
+      "calories_per_hour": 250,
+      "is_featured": false
+    }
+  },
+  {
+    "model": "core.testimonial",
+    "pk": 1,
+    "fields": {
+      "name": "Alex Turner",
+      "role": "Member since 2022",
+      "content": "IronForge completely changed my life. I lost 35 pounds in 6 months and built more muscle than I ever thought possible. The trainers here actually care about your progress and push you when you need it.",
+      "rating": 5,
+      "photo": "",
+      "is_featured": true,
+      "created_at": "2024-01-15T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.testimonial",
+    "pk": 2,
+    "fields": {
+      "name": "Priya Sharma",
+      "role": "Yoga & Strength Member",
+      "content": "Sofia's yoga classes are absolutely incredible — I went from barely touching my toes to doing advanced poses in just a few months. The dark/light energy of this gym is unlike any place I've trained before.",
+      "rating": 5,
+      "photo": "",
+      "is_featured": true,
+      "created_at": "2024-02-20T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.testimonial",
+    "pk": 3,
+    "fields": {
+      "name": "Derek Johnson",
+      "role": "Powerlifting Member",
+      "content": "Marcus helped me add 80 pounds to my deadlift in one year. The equipment at IronForge is top-tier and the atmosphere is electric. If you're serious about strength, this is your gym.",
+      "rating": 5,
+      "photo": "",
+      "is_featured": true,
+      "created_at": "2024-03-10T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.testimonial",
+    "pk": 4,
+    "fields": {
+      "name": "Maria Chen",
+      "role": "HIIT & Boxing Member",
+      "content": "I've tried 5 gyms in this city and IronForge is on a completely different level. Amara's boxing classes are so fun that I forget I'm working out. Lost 20lbs and gained serious confidence.",
+      "rating": 5,
+      "photo": "",
+      "is_featured": true,
+      "created_at": "2024-04-05T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.testimonial",
+    "pk": 5,
+    "fields": {
+      "name": "Sam O'Brien",
+      "role": "6-Month Member",
+      "content": "The online booking system is so smooth — I can reserve my spot in any class from my phone in seconds. The community here is incredibly motivating. Best investment I've ever made in myself.",
+      "rating": 5,
+      "photo": "",
+      "is_featured": true,
+      "created_at": "2024-05-01T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.testimonial",
+    "pk": 6,
+    "fields": {
+      "name": "Keisha Williams",
+      "role": "Annual Member",
+      "content": "From the moment I walked in I knew IronForge was different. The staff knows your name, the equipment is immaculate, and Jordan's HIIT classes make you feel like a superhero. 10/10.",
+      "rating": 5,
+      "photo": "",
+      "is_featured": true,
+      "created_at": "2024-06-12T10:00:00Z"
+    }
+  },
+  {
+    "model": "core.membershipplan",
+    "pk": 1,
+    "fields": {
+      "name": "Starter",
+      "price": "39.99",
+      "billing_period": "month",
+      "features": "Full gym access\nLocker room & showers\n2 group classes/month\nFitness assessment\nMobile app access",
+      "is_featured": false,
+      "is_active": true,
+      "order": 1
+    }
+  },
+  {
+    "model": "core.membershipplan",
+    "pk": 2,
+    "fields": {
+      "name": "Elite",
+      "price": "69.99",
+      "billing_period": "month",
+      "features": "Full gym access\nLocker room & showers\nUnlimited group classes\nFitness assessment\nNutrition consultation\nMobile app access\nGuest passes (2/month)",
+      "is_featured": true,
+      "is_active": true,
+      "order": 2
+    }
+  },
+  {
+    "model": "core.membershipplan",
+    "pk": 3,
+    "fields": {
+      "name": "Champion",
+      "price": "119.99",
+      "billing_period": "month",
+      "features": "Everything in Elite\n4 personal training sessions\nPriority class booking\nBody composition analysis\nCustom workout program\nNutrition plan\nDedicated locker\n24/7 facility access",
+      "is_featured": false,
+      "is_active": true,
+      "order": 3
+    }
+  }
+]

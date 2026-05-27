@@ -1,0 +1,47 @@
+{% extends 'admin_panel/base.html' %}
+{% block title %}Membership Plans | IronForge Manage{% endblock %}
+{% block page_title %}Membership Plans{% endblock %}
+
+{% block content %}
+<div class="ap-page-header">
+    <div class="ap-page-title">MEMBERSHIP PLANS</div>
+    <a href="{% url 'admin_panel:plan_create' %}" class="ap-action ap-action-primary"><i class="bi bi-plus-lg me-1"></i>Add Plan</a>
+</div>
+<div class="ap-card">
+    <div style="overflow-x:auto">
+        <table class="ap-table">
+            <thead>
+                <tr>
+                    <th>Plan</th>
+                    <th>Price</th>
+                    <th>Period</th>
+                    <th>Features</th>
+                    <th>Featured</th>
+                    <th>Status</th>
+                    <th>Order</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in plans %}
+                <tr>
+                    <td class="td-name">{{ p.name }}</td>
+                    <td>${{ p.price }}</td>
+                    <td>/ {{ p.billing_period }}</td>
+                    <td>{{ p.get_features_list|length }} features</td>
+                    <td>{% if p.is_featured %}<span class="ap-pill ap-pill-yellow">★ Yes</span>{% else %}<span class="ap-pill ap-pill-gray">No</span>{% endif %}</td>
+                    <td>{% if p.is_active %}<span class="ap-pill ap-pill-green">Active</span>{% else %}<span class="ap-pill ap-pill-red">Hidden</span>{% endif %}</td>
+                    <td>{{ p.order }}</td>
+                    <td style="white-space:nowrap">
+                        <a href="{% url 'admin_panel:plan_edit' p.pk %}" class="ap-action ap-action-edit"><i class="bi bi-pencil"></i> Edit</a>
+                        <a href="{% url 'admin_panel:plan_delete' p.pk %}" class="ap-action ap-action-delete"><i class="bi bi-trash3"></i></a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:2rem">No plans yet. <a href="{% url 'admin_panel:plan_create' %}" style="color:var(--accent)">Add one</a>.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
